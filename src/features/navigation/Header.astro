@@ -12,19 +12,20 @@ import {
 } from '../../shared/effects/liquid-glass/liquidGlass';
 import Icon from '../../shared/ui/Icon.astro';
 import { BRAND } from '../../shared/brand/brand';
+import { withBase } from '../../shared/routing/paths';
 
 interface Props {
   readonly currentPath: string;
 }
 
 const { currentPath } = Astro.props;
-const normalizedPath = currentPath.replace(/\/$/, '') || '/';
+const normalizedPath = currentPath.replace(/\/$/, '') || withBase('/');
 
 const navItems = [
-  { label: 'Início', href: '/' },
-  { label: 'Produtos', href: '/produtos' },
-  { label: 'Sobre', href: '/sobre' },
-  { label: 'Contato', href: '/contato' },
+  { label: 'Início', href: withBase('/') },
+  { label: 'Produtos', href: withBase('/produtos') },
+  { label: 'Sobre', href: withBase('/sobre') },
+  { label: 'Contato', href: withBase('/contato') },
 ] as const;
 ---
 
@@ -39,7 +40,7 @@ const navItems = [
   >
     <!-- Marca Tipográfica Periphelion Pura (Sem ícone, apenas o nome) -->
     <a
-      href="/"
+      href={withBase('/')}
       class="inline-flex items-center font-display text-base sm:text-lg font-semibold tracking-tight text-on-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-on-surface"
     >
       {BRAND.name}

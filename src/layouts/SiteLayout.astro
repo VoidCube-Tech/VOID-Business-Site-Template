@@ -12,6 +12,7 @@ import {
   PHOTO_ORBITAL_OFFICES_SET,
   PHOTO_AMBER_LOUVERS_SET,
 } from '../shared/media/frontImages';
+import { withBase } from '../shared/routing/paths';
 
 interface Props {
   title: string;
@@ -42,8 +43,8 @@ const {
       href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="ard" href="/.well-known/ard.json" />
-    <link rel="describedby" type="text/plain" href="/llms.txt" />
+    <link rel="ard" href={withBase('/.well-known/ard.json')} />
+    <link rel="describedby" type="text/plain" href={withBase('/llms.txt')} />
     <link rel="preload" as="image" type="image/webp" href={PHOTO_MODULAR_CURVE_SET.webp} />
     <link rel="preload" as="image" type="image/webp" href={PHOTO_NIGHT_GRID_SET.webp} />
     <link rel="preload" as="image" type="image/webp" href={PHOTO_ORBITAL_OFFICES_SET.webp} />

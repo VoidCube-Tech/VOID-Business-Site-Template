@@ -1,20 +1,21 @@
 ---
 import { BRAND } from '../../shared/brand/brand';
+import { withBase } from '../../shared/routing/paths';
 ---
 <footer class="mt-auto w-full border-t border-outline-variant/20 bg-surface-container-lowest/55 py-7 sm:py-8 backdrop-blur-md overflow-hidden">
   <div class="mx-auto grid max-w-7xl grid-cols-1 items-center gap-4 px-6 text-center md:grid-cols-3 lg:px-12">
     <div class="flex items-center justify-center md:justify-start min-w-0">
-      <a href="/" class="font-display text-base font-bold tracking-tight text-on-surface hover:text-primary transition-colors">
+      <a href={withBase('/')} class="font-display text-base font-bold tracking-tight text-on-surface hover:text-primary transition-colors">
         {BRAND.name}
       </a>
       <span class="sr-only">{BRAND.tagline}</span>
     </div>
 
     <nav aria-label="Navegação do rodapé" class="flex flex-wrap items-center justify-center gap-6 text-xs font-medium text-on-surface-variant min-w-0">
-      <a href="/" class="transition-colors hover:text-on-surface">Início</a>
-      <a href="/produtos" class="transition-colors hover:text-on-surface">Produtos</a>
-      <a href="/sobre" class="transition-colors hover:text-on-surface">Sobre</a>
-      <a href="/contato" class="transition-colors hover:text-on-surface">Contato</a>
+      <a href={withBase('/')} class="transition-colors hover:text-on-surface">Início</a>
+      <a href={withBase('/produtos')} class="transition-colors hover:text-on-surface">Produtos</a>
+      <a href={withBase('/sobre')} class="transition-colors hover:text-on-surface">Sobre</a>
+      <a href={withBase('/contato')} class="transition-colors hover:text-on-surface">Contato</a>
     </nav>
 
     <p class="text-xs text-on-surface-variant text-center md:text-right min-w-0 break-words">

@@ -1,5 +1,6 @@
 ---
 import type { ResponsiveImageSet } from '../media/frontImages';
+import { withBase } from '../routing/paths';
 
 interface Props {
   image: ResponsiveImageSet | string;
@@ -23,12 +24,12 @@ const {
   breakpoints = { mobileMax: 767 },
 } = Astro.props;
 
-// Se for ResponsiveImageSet, usa as rotas diretas; se for string legada, computa os caminhos
-const src = typeof image === 'string' ? image : image.src;
-const avif = typeof image === 'string' ? src.replace(/\.[a-z0-9]+$/i, '.avif') : image.avif;
-const webp = typeof image === 'string' ? src.replace(/\.[a-z0-9]+$/i, '.webp') : image.webp;
-const mobileAvif = typeof image === 'string' ? src.replace(/\.[a-z0-9]+$/i, '-mobile.avif') : image.mobileAvif;
-const mobileWebp = typeof image === 'string' ? src.replace(/\.[a-z0-9]+$/i, '-mobile.webp') : image.mobileWebp;
+// Se for ResponsiveImageSet, usa as rotas diretas (já com base); se for string legada, computa os caminhos
+const src = typeof image === 'string' ? withBase(image) : image.src;
+const avif = typeof image === 'string' ? withBase(src.replace(/\.[a-z0-9]+$/i, '.avif')) : image.avif;
+const webp = typeof image === 'string' ? withBase(src.replace(/\.[a-z0-9]+$/i, '.webp')) : image.webp;
+const mobileAvif = typeof image === 'string' ? withBase(src.replace(/\.[a-z0-9]+$/i, '-mobile.avif')) : image.mobileAvif;
+const mobileWebp = typeof image === 'string' ? withBase(src.replace(/\.[a-z0-9]+$/i, '-mobile.webp')) : image.mobileWebp;
 
 const mobileMediaQuery = `(max-width: ${breakpoints.mobileMax ?? 767}px)`;
 const desktopMediaQuery = `(min-width: ${(breakpoints.mobileMax ?? 767) + 1}px)`;
