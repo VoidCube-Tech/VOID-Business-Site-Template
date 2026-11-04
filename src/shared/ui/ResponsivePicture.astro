@@ -1,0 +1,55 @@
+---
+import type { ResponsiveImageSet } from '../media/frontImages';
+
+interface Props {
+  image: ResponsiveImageSet | string;
+  alt: string;
+  class?: string;
+  fetchpriority?: 'high' | 'low' | 'auto';
+  loading?: 'eager' | 'lazy';
+  decoding?: 'async' | 'sync' | 'auto';
+  breakpoints?: {
+    mobileMax?: number;
+  };
+}
+
+const {
+  image,
+  alt,
+  class: className = 'split-photo-sharp object-center',
+  fetchpriority = 'auto',
+  loading = 'eager',
+  decoding = 'async',
+  breakpoints = { mobileMax: 767 },
+} = Astro.props;
+
+// Se for ResponsiveImageSet, usa as rotas diretas; se for string legada, computa os caminhos
+const src = typeof image === 'string' ? image : image.src;
+const avif = typeof image === 'string' ? src.replace(/\.[a-z0-9]+$/i, '.avif') : image.avif;
+const webp = typeof image === 'string' ? src.replace(/\.[a-z0-9]+$/i, '.webp') : image.webp;
+const mobileAvif = typeof image === 'string' ? src.replace(/\.[a-z0-9]+$/i, '-mobile.avif') : image.mobileAvif;
+const mobileWebp = typeof image === 'string' ? src.replace(/\.[a-z0-9]+$/i, '-mobile.webp') : image.mobileWebp;
+
+const mobileMediaQuery = `(max-width: ${breakpoints.mobileMax ?? 767}px)`;
+const desktopMediaQuery = `(min-width: ${(breakpoints.mobileMax ?? 767) + 1}px)`;
+---
+
+<picture class="contents">
+  <!-- Mobile (< 768px): Peso ultraleve (28KB a 80KB) para 3G/4G -->
+  <source media={mobileMediaQuery} srcset={mobileAvif} type="image/avif" />
+  <source media={mobileMediaQuery} srcset={mobileWebp} type="image/webp" />
+
+  <!-- Desktop (>= 768px): Alta resolução 2048px Retina -->
+  <source media={desktopMediaQuery} srcset={avif} type="image/avif" />
+  <source media={desktopMediaQuery} srcset={webp} type="image/webp" />
+
+  <!-- Fallback Universal Img com a classe que as animações e estilos esperam -->
+  <img
+    src={src}
+    alt={alt}
+    fetchpriority={fetchpriority}
+    loading={loading}
+    decoding={decoding}
+    class={className}
+  />
+</picture>

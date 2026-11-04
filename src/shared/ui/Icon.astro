@@ -1,0 +1,44 @@
+---
+export type IconName =
+  | 'close'
+  | 'arrow_forward'
+  | 'check_circle';
+
+interface Props {
+  name: IconName;
+  class?: string;
+}
+
+const { name, class: className = 'w-5 h-5' } = Astro.props;
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.8"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class={className}
+  aria-hidden="true"
+>
+  {name === 'close' && (
+    <>
+      <path d="M18 6 6 18" />
+      <path d="m6 6 12 12" />
+    </>
+  )}
+  {name === 'arrow_forward' && (
+    <>
+      <path d="M5 12h14" />
+      <path d="m12 5 7 7-7 7" />
+    </>
+  )}
+  {name === 'check_circle' && (
+    <>
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+      <path d="m9 11 3 3L22 4" />
+    </>
+  )}
+</svg>

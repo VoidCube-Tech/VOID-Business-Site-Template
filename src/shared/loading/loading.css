@@ -1,0 +1,164 @@
+/* ============================================================================
+ * Periphelion Dynamic Page Loading & Settle Transition System
+ * ============================================================================ */
+
+.app-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 950;
+  isolation: isolate;
+  pointer-events: none;
+}
+
+.app-loading[hidden] {
+  display: none !important;
+}
+
+.app-loading-surface {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  opacity: 0;
+  transition: opacity 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+/* Só exibe o splash screen se o carregamento realmente demorar (phase="long" > 350ms) */
+.app-loading[data-phase="long"] .app-loading-surface {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Transição de saída do overlay */
+.app-loading[data-phase="exiting"] .app-loading-surface {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.app-loading[data-phase="ready"] {
+  display: none !important;
+}
+
+.app-loading-presentation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 22rem;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 220ms ease-out;
+}
+
+/* Emblema Tipográfico Periphelion Cinético */
+.app-loading-mark {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+}
+
+.app-letters-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.app-letter-main {
+  font-family: var(--font-display, "Plus Jakarta Sans", sans-serif);
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  color: var(--color-on-surface);
+}
+
+.app-letter-accent {
+  color: var(--color-on-surface-variant);
+  display: inline-block;
+}
+
+.app-letters-pulse-line {
+  width: 36px;
+  height: 2px;
+  border-radius: 9999px;
+  background-color: var(--color-primary);
+  animation: app-line-pulse 1600ms ease-in-out infinite;
+}
+
+@keyframes app-line-pulse {
+  0%, 100% {
+    width: 26px;
+    opacity: 0.45;
+  }
+  50% {
+    width: 52px;
+    opacity: 0.95;
+  }
+}
+
+.app-loading[data-phase="long"] .app-loading-mark {
+  animation: app-letters-float 1600ms ease-in-out infinite alternate;
+}
+
+@keyframes app-letters-float {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    transform: translateY(-6px) scale(1.03);
+  }
+}
+
+.app-loading-text {
+  margin: 0;
+  font-family: var(--font-primary, system-ui, sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--color-on-surface-variant);
+  transition: opacity 200ms ease;
+}
+
+/* Gating de conteúdo durante o carregamento inicial (visível imediatamente sem flash) */
+.page-loading-enabled [data-loading-content] {
+  opacity: 1;
+  filter: none;
+}
+
+.page-loading-enabled [data-loading-content][data-loading-phase="exiting"],
+.page-loading-enabled [data-loading-content][data-loading-phase="ready"] {
+  opacity: 1;
+  visibility: visible;
+  filter: none;
+}
+
+/* Saída suave ao navegar para outra página (sem bloquear cliques e sem travar em ready) */
+html.page-is-navigating .app-loading:not([data-phase="ready"]),
+html.page-is-navigating .app-loading[data-phase="ready"] {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+html.page-is-navigating .app-loading .app-loading-surface {
+  opacity: 0;
+  pointer-events: none !important;
+}
+
+/* Suporte A11y: prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .app-loading .app-loading-mark {
+    animation: none !important;
+    transform: none !important;
+  }
+  .app-loading-surface,
+  .page-loading-enabled [data-loading-content] {
+    transition: opacity 120ms linear !important;
+  }
+}

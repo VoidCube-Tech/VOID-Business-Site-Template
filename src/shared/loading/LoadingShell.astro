@@ -1,0 +1,90 @@
+---
+import './loading.css';
+
+interface Props {
+  readonly message?: string;
+}
+
+const { message = "Preparando sua experiência" } = Astro.props;
+---
+
+<!-- Periphelion Page Loading Overlay (Desativado por padrão para transição nativa sem flash) -->
+<div
+  id="app-page-loading"
+  class="app-loading"
+  data-phase="ready"
+  hidden
+  aria-hidden="true"
+>
+  <div class="app-loading-surface">
+    <div class="app-loading-presentation">
+      <div class="app-loading-mark">
+        <div class="app-letters-wrap">
+          <div class="app-letter-main">
+            PERIPH<span class="app-letter-accent">ELION</span>
+          </div>
+          <div class="app-letters-pulse-line" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <p role="status" aria-live="polite" class="app-loading-text">
+        {message}
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Conteúdo da Página (Visível desde o frame 0, sem flash escuro) -->
+<div id="app-page-content" data-loading-content data-loading-phase="ready">
+  <slot />
+</div>
+
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    const content = document.getElementById('app-page-content');
+    const overlay = document.getElementById('app-page-loading');
+    if (!content || !overlay) return;
+
+    const clearNavigationState = () => {
+      root.classList.remove('page-is-navigating');
+      if (overlay) {
+        overlay.dataset.phase = 'ready';
+        overlay.hidden = true;
+      }
+      if (content) {
+        content.dataset.loadingPhase = 'ready';
+        content.inert = false;
+        content.removeAttribute('aria-busy');
+      }
+    };
+
+    const ready = () => {
+      clearTimeout(safetyTimer);
+      clearNavigationState();
+      document.dispatchEvent(new CustomEvent('app:page-ready'));
+    };
+
+    const safetyTimer = setTimeout(ready, 500);
+
+    if (document.readyState === 'interactive' || document.readyState === 'complete') {
+      ready();
+    } else {
+      document.addEventListener('DOMContentLoaded', ready, { once: true });
+      window.addEventListener('load', ready, { once: true });
+    }
+
+    window.addEventListener('pageshow', () => {
+      ready();
+    });
+
+    window.addEventListener('pagehide', ready, { once: true });
+  })();
+</script>
+
+<noscript>
+  <style>
+    .app-loading { display: none !important; }
+    .page-loading-enabled [data-loading-content] { opacity: 1 !important; visibility: visible !important; }
+  </style>
+</noscript>

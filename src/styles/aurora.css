@@ -1,0 +1,226 @@
+/* ============================================================================
+ * Atmosfera Obsidiana, Lente Split Half-Blur & Superfícies Técnicas (V2)
+ * ============================================================================ */
+
+.aurora-container {
+  position: relative;
+  background-color: var(--color-background);
+  contain: layout paint;
+}
+
+.aurora-mesh {
+  position: absolute;
+  inset: -25%;
+  width: 150%;
+  height: 150%;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 18%, oklch(18% 0.01 260 / 0.45) 0%, transparent 72%),
+    radial-gradient(ellipse 50% 45% at 80% 75%, oklch(15% 0.008 260 / 0.35) 0%, transparent 70%);
+  filter: blur(60px);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+:root[data-theme="light"] .aurora-mesh {
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 18%, oklch(92% 0.01 85 / 0.45) 0%, transparent 72%),
+    radial-gradient(ellipse 50% 45% at 80% 75%, oklch(90% 0.01 260 / 0.30) 0%, transparent 70%);
+  opacity: 0.48;
+  filter: blur(65px);
+}
+
+/* ============================================================================
+ * Lente Fotográfica Half-Blur / Half-Sharp (Metade Desfocada para Texto, Metade Nítida)
+ * Responsiva de 320px a 4K e calibrada para Dark Mode e Light Mode
+ * ============================================================================ */
+
+.split-photo-stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-outline-variant);
+  background-color: var(--color-surface-container);
+}
+
+.split-photo-hero {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-background);
+}
+
+/* Camada 1: Fotografia Nítida em 100% do Quadro (Destaque no lado oposto ao texto) */
+.split-photo-sharp {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+  transform: scale(1);
+  transition:
+    opacity 550ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 750ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.reveal-enabled .split-photo-sharp:not(.is-loaded) {
+  opacity: 0;
+  transform: scale(1.025);
+}
+
+html.reveal-enabled .split-photo-sharp.is-loaded {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Camada 2: Lente de Desfoque Direcional (Desfoca apenas a metade onde fica o texto) */
+.split-lens-left,
+.split-lens-right {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  backdrop-filter: blur(24px) saturate(120%);
+  -webkit-backdrop-filter: blur(24px) saturate(120%);
+}
+
+/* Em telas mobile (< 768px): topo nítido, metade inferior desfocada para leitura perfeita */
+@media (max-width: 767px) {
+  .split-lens-left,
+  .split-lens-right {
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      color-mix(in oklch, var(--color-background) 60%, transparent) 34%,
+      color-mix(in oklch, var(--color-background) 88%, transparent) 66%,
+      color-mix(in oklch, var(--color-background) 95%, transparent) 100%
+    );
+    mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 1) 56%);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 1) 56%);
+  }
+}
+
+/* Em telas tablet e desktop (>= 768px): metade do texto desfocada, metade oposta nítida */
+@media (min-width: 768px) {
+  .split-lens-left {
+    background: linear-gradient(
+      90deg,
+      color-mix(in oklch, var(--color-background) 92%, transparent) 0%,
+      color-mix(in oklch, var(--color-background) 82%, transparent) 44%,
+      color-mix(in oklch, var(--color-background) 35%, transparent) 68%,
+      transparent 88%
+    );
+    mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.94) 46%, rgba(0, 0, 0, 0.28) 70%, transparent 88%);
+    -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.94) 46%, rgba(0, 0, 0, 0.28) 70%, transparent 88%);
+  }
+
+  .split-lens-right {
+    background: linear-gradient(
+      270deg,
+      color-mix(in oklch, var(--color-background) 92%, transparent) 0%,
+      color-mix(in oklch, var(--color-background) 82%, transparent) 44%,
+      color-mix(in oklch, var(--color-background) 35%, transparent) 68%,
+      transparent 88%
+    );
+    mask-image: linear-gradient(270deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.94) 46%, rgba(0, 0, 0, 0.28) 70%, transparent 88%);
+    -webkit-mask-image: linear-gradient(270deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.94) 46%, rgba(0, 0, 0, 0.28) 70%, transparent 88%);
+  }
+}
+
+/* ============================================================================
+ * Superfícies Secundárias & Escala de 5 Níveis de Elevação (OKLCH 14% / Borda 22%)
+ * ============================================================================ */
+
+.spotlight-card {
+  position: relative;
+  background-color: var(--color-surface-container);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: border-color var(--duration-ui) var(--ease-ui),
+              background-color var(--duration-ui) var(--ease-ui);
+}
+
+.spotlight-card:hover {
+  border-color: var(--color-outline);
+}
+
+.spotlight-card:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.card-elevation-1,
+.spotlight-card[data-elevation="1"] {
+  background-color: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+}
+
+.card-elevation-2,
+.spotlight-card[data-elevation="2"] {
+  background-color: var(--color-surface-container-low);
+  border: 1px solid var(--color-outline-variant);
+}
+
+.card-elevation-3,
+.spotlight-card[data-elevation="3"] {
+  background-color: var(--color-surface-container);
+  border: 1px solid var(--color-outline-variant);
+}
+
+.card-elevation-4,
+.spotlight-card[data-elevation="4"] {
+  background-color: var(--color-surface-container-high);
+  border: 1px solid var(--color-outline-variant);
+}
+
+.card-elevation-5,
+.spotlight-card[data-elevation="5"] {
+  background-color: color-mix(in oklch, var(--color-surface-container) 82%, transparent);
+  border: 1px solid var(--color-outline-variant);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+/* ============================================================================
+ * Matriz Comparativa em Vidro Fumê (Referência Tequs Captura 164534)
+ * ============================================================================ */
+.smoked-comparison-surface {
+  background-color: color-mix(in oklch, var(--color-surface-container) 72%, transparent);
+  border: 1px solid var(--color-outline-variant);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+}
+
+.smoked-comparison-highlight {
+  background-color: var(--color-background);
+}
+
+.elevation-flat,
+.spotlight-card.elevation-flat,
+.spotlight-card.elevation-flat:hover {
+  background: transparent !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+  border-width: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* View Transition Theme Wipe */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+html.theme-transitioning *:not(.theme-switch-thumb):not(.theme-switch-track):not(.theme-switch-icon):not(.theme-knob-circle) {
+  transition: none !important;
+}

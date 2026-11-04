@@ -1,0 +1,131 @@
+---
+/**
+ * CorporateBackdrop V2 — Átrio Arquitetônico Desfocado com Fotografia Real
+ *
+ * Alimentado diretamente pelas fotografias reais de "C:\Users\dkaua\Pictures\Imagens para front"
+ * sincronizadas via scripts/sync-front-images.mjs.
+ * - Sem matizes verdes ou brilhos neon artificiais.
+ * - Mantém nitidez periférica sutil (blur 4px) e centro protegido em Obsidiana Frio (oklch(11% 0.008 260)).
+ */
+import {
+  PHOTO_ORBITAL_OFFICES_SET,
+  PHOTO_SHADOW_CORRIDOR_SET,
+  PRIMARY_ARCHITECTURAL_IMAGE,
+  SECONDARY_ARCHITECTURAL_IMAGE,
+} from '../media/frontImages';
+---
+
+<div
+  id="corporate-backdrop"
+  class="pointer-events-none fixed inset-0 -z-10 select-none overflow-hidden"
+  aria-hidden="true"
+>
+  <!-- Camada 1: Difusão Óptica Central (Bokeh suave da fotografia real) -->
+  <picture class="atrium-layer-bokeh absolute inset-0 h-full w-full">
+    <source media="(max-width: 767px)" srcset={PHOTO_SHADOW_CORRIDOR_SET.mobileAvif} type="image/avif" />
+    <source media="(max-width: 767px)" srcset={PHOTO_SHADOW_CORRIDOR_SET.mobileWebp} type="image/webp" />
+    <source media="(min-width: 768px)" srcset={PHOTO_SHADOW_CORRIDOR_SET.avif} type="image/avif" />
+    <source media="(min-width: 768px)" srcset={PHOTO_SHADOW_CORRIDOR_SET.webp} type="image/webp" />
+    <img
+      src={SECONDARY_ARCHITECTURAL_IMAGE}
+      alt=""
+      decoding="async"
+      class="atrium-image-bokeh h-full w-full object-cover object-center"
+    />
+  </picture>
+
+  <!-- Camada 2: Moldura Arquitetônica Periférica (Fachada em grade iluminada / Torres) -->
+  <picture class="atrium-layer-structural absolute inset-0 h-full w-full">
+    <source media="(max-width: 767px)" srcset={PHOTO_ORBITAL_OFFICES_SET.mobileAvif} type="image/avif" />
+    <source media="(max-width: 767px)" srcset={PHOTO_ORBITAL_OFFICES_SET.mobileWebp} type="image/webp" />
+    <source media="(min-width: 768px)" srcset={PHOTO_ORBITAL_OFFICES_SET.avif} type="image/avif" />
+    <source media="(min-width: 768px)" srcset={PHOTO_ORBITAL_OFFICES_SET.webp} type="image/webp" />
+    <img
+      src={PRIMARY_ARCHITECTURAL_IMAGE}
+      alt=""
+      fetchpriority="high"
+      decoding="async"
+      class="atrium-image h-full w-full object-cover object-center"
+    />
+  </picture>
+
+  <!-- Camada 3: Scrim de Leitura em Obsidiana Frio (oklch(11% 0.008 260)) -->
+  <div class="atrium-vignette absolute inset-0"></div>
+</div>
+
+<style>
+  #corporate-backdrop {
+    contain: layout paint size;
+  }
+
+  .atrium-image-bokeh {
+    filter: blur(22px) saturate(0.75) contrast(1.06);
+    transform: scale(1.06);
+  }
+
+  .atrium-layer-structural {
+    mask-image: radial-gradient(
+      ellipse 56% 54% at 50% 48%,
+      rgba(0, 0, 0, 0.14) 0%,
+      rgba(0, 0, 0, 0.52) 58%,
+      rgba(0, 0, 0, 0.92) 95%
+    );
+    -webkit-mask-image: radial-gradient(
+      ellipse 56% 54% at 50% 48%,
+      rgba(0, 0, 0, 0.14) 0%,
+      rgba(0, 0, 0, 0.52) 58%,
+      rgba(0, 0, 0, 0.92) 95%
+    );
+  }
+
+  .atrium-image {
+    filter: blur(5px) saturate(0.78) contrast(1.08);
+    transform: scale(1.02);
+  }
+
+  :root,
+  :root[data-theme="dark"],
+  html.dark {
+    & .atrium-vignette {
+      background:
+        radial-gradient(
+          ellipse 62% 58% at 50% 46%,
+          color-mix(in oklch, var(--color-background) 88%, transparent) 0%,
+          color-mix(in oklch, var(--color-background) 72%, transparent) 64%,
+          color-mix(in oklch, var(--color-background) 52%, transparent) 100%
+        ),
+        linear-gradient(
+          180deg,
+          color-mix(in oklch, var(--color-background) 42%, transparent) 0%,
+          color-mix(in oklch, var(--color-background) 78%, transparent) 52%,
+          color-mix(in oklch, var(--color-background) 94%, transparent) 100%
+        );
+    }
+
+    & #corporate-backdrop {
+      opacity: 0.46;
+      mix-blend-mode: normal;
+    }
+  }
+
+  :root[data-theme="light"] .atrium-vignette {
+    background:
+      radial-gradient(
+        ellipse 62% 58% at 50% 46%,
+        color-mix(in oklch, var(--color-background) 90%, transparent) 0%,
+        color-mix(in oklch, var(--color-background) 76%, transparent) 65%,
+        color-mix(in oklch, var(--color-background) 58%, transparent) 100%
+      );
+  }
+
+  :root[data-theme="light"] #corporate-backdrop {
+    opacity: 0.22;
+    mix-blend-mode: normal;
+  }
+
+  @media (forced-colors: active) {
+    #corporate-backdrop {
+      display: none;
+    }
+  }
+</style>

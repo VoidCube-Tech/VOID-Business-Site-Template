@@ -1,0 +1,225 @@
+@import "tailwindcss";
+@import "./aurora.css";
+@import "./transitions.css";
+@import "./typography.css";
+@import "../shared/effects/liquid-glass/liquidGlass.css";
+
+/* Fallback métrico de fontes para garantir CLS = 0.000 antes do swap de fontes externas */
+@font-face {
+  font-family: "Geist Fallback";
+  src: local("Segoe UI"), local("SF Pro Display"), local("Arial"), local("Helvetica Neue");
+  size-adjust: 100.2%;
+  ascent-override: 96%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+/* Mapeamento @theme inline do Tailwind CSS v4 para variáveis dinâmicas HCT -> OKLCH (Dark & Light) */
+@theme inline {
+  --color-primary: var(--theme-primary);
+  --color-on-primary: var(--theme-on-primary);
+  --color-primary-container: var(--theme-primary-container);
+  --color-on-primary-container: var(--theme-on-primary-container);
+
+  --color-secondary: var(--theme-secondary);
+  --color-on-secondary: var(--theme-on-secondary);
+  --color-secondary-container: var(--theme-secondary-container);
+  --color-on-secondary-container: var(--theme-on-secondary-container);
+
+  --color-tertiary: var(--theme-tertiary);
+  --color-on-tertiary: var(--theme-on-tertiary);
+  --color-tertiary-container: var(--theme-tertiary-container);
+  --color-on-tertiary-container: var(--theme-on-tertiary-container);
+
+  --color-error: var(--theme-error);
+  --color-on-error: var(--theme-on-error);
+  --color-error-container: var(--theme-error-container);
+  --color-on-error-container: var(--theme-on-error-container);
+
+  /* Status Colors */
+  --color-success: var(--theme-success);
+  --color-warning: var(--theme-warning);
+  --color-danger: var(--theme-error);
+
+  --color-background: var(--theme-background);
+  --color-on-background: var(--theme-on-background);
+  --color-surface: var(--theme-surface);
+  --color-on-surface: var(--theme-on-surface);
+  --color-surface-variant: var(--theme-surface-variant);
+  --color-on-surface-variant: var(--theme-on-surface-variant);
+
+  --color-surface-container-lowest: var(--theme-surface-container-lowest);
+  --color-surface-container-low: var(--theme-surface-container-low);
+  --color-surface-container: var(--theme-surface-container);
+  --color-surface-container-high: var(--theme-surface-container-high);
+  --color-surface-container-highest: var(--theme-surface-container-highest);
+
+  --color-outline: var(--theme-outline);
+  --color-outline-variant: var(--theme-outline-variant);
+  --color-shadow: var(--theme-shadow);
+  --color-glass-specular: var(--theme-glass-specular);
+
+  --spacing: 4px;
+  --radius-ui: 8px;
+
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+
+  --duration-ui: 220ms;
+  --duration-ui-slow: 380ms;
+  --ease-ui: cubic-bezier(0.16, 1, 0.3, 1);
+  --default-transition-duration: 220ms;
+  --default-transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --font-primary: "Plus Jakarta Sans", "Geist Fallback", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-secondary: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-accent: "Instrument Serif", Georgia, serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-sans: var(--font-primary);
+}
+
+/* ============================================================================
+ * DARK MODE (PADRÃO PRINCIPAL) — Obsidiana Frio, Branco-Osso Quente & Laranja Sinalizador
+ * ============================================================================ */
+:root,
+:root[data-theme="dark"],
+html.dark {
+  color-scheme: dark;
+
+  /* Cor de Acento / Instrumento (Laranja Sinalizador — 2% a 5% da interface) */
+  --theme-primary: oklch(68% 0.18 45);
+  --theme-on-primary: oklch(11% 0.008 260);
+  --theme-primary-container: oklch(22% 0.04 45);
+  --theme-on-primary-container: oklch(95% 0.008 85);
+
+  /* Tons Secundários de Apoio Técnico */
+  --theme-secondary: oklch(72% 0.015 260);
+  --theme-on-secondary: oklch(11% 0.008 260);
+  --theme-secondary-container: oklch(19% 0.01 260);
+  --theme-on-secondary-container: oklch(95% 0.008 85);
+
+  --theme-tertiary: oklch(76% 0.02 85);
+  --theme-on-tertiary: oklch(11% 0.008 260);
+  --theme-tertiary-container: oklch(20% 0.01 85);
+  --theme-on-tertiary-container: oklch(95% 0.008 85);
+
+  --theme-error: oklch(72% 0.15 28);
+  --theme-on-error: oklch(11% 0.008 260);
+  --theme-error-container: oklch(24% 0.06 28);
+  --theme-on-error-container: oklch(95% 0.008 85);
+
+  /* Fundo Base (Obsidiana Frio) e Texto Primário (Branco-Osso Quente) */
+  --theme-background: oklch(11% 0.008 260);
+  --theme-on-background: oklch(95% 0.008 85);
+  --theme-surface: oklch(11% 0.008 260);
+  --theme-on-surface: oklch(95% 0.008 85);
+
+  /* Superfícies Secundárias e Texto Secundário / Metadados (Cinza Técnico) */
+  --theme-surface-variant: oklch(16% 0.009 260);
+  --theme-on-surface-variant: oklch(60% 0.01 260);
+
+  --theme-surface-container-lowest: oklch(9.5% 0.008 260);
+  --theme-surface-container-low: oklch(12.5% 0.008 260);
+  --theme-surface-container: oklch(14% 0.008 260);
+  --theme-surface-container-high: oklch(16.5% 0.009 260);
+  --theme-surface-container-highest: oklch(19.5% 0.01 260);
+
+  /* Bordas Técnicas e Filetes 1px */
+  --theme-outline: oklch(38% 0.01 260);
+  --theme-outline-variant: oklch(22% 0.01 260);
+  --theme-shadow: oklch(0% 0 0);
+  --theme-glass-specular: oklch(95% 0.008 85);
+
+  --theme-success: oklch(72% 0.11 155);
+  --theme-warning: oklch(68% 0.18 45);
+}
+
+/* ============================================================================
+ * LIGHT MODE — Papel Osso Quente, Grafite Obsidiana & Laranja Sinalizador Calibrado
+ * ============================================================================ */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --theme-primary: oklch(48% 0.12 45);
+  --theme-on-primary: oklch(98% 0.005 85);
+  --theme-primary-container: oklch(91% 0.035 45);
+  --theme-on-primary-container: oklch(18% 0.04 45);
+
+  --theme-secondary: oklch(38% 0.015 260);
+  --theme-on-secondary: oklch(98% 0.005 85);
+  --theme-secondary-container: oklch(90% 0.01 260);
+  --theme-on-secondary-container: oklch(16% 0.01 260);
+
+  --theme-tertiary: oklch(40% 0.02 85);
+  --theme-on-tertiary: oklch(98% 0.005 85);
+  --theme-tertiary-container: oklch(90% 0.012 85);
+  --theme-on-tertiary-container: oklch(16% 0.01 85);
+
+  --theme-error: oklch(48% 0.13 28);
+  --theme-on-error: oklch(98% 0.005 85);
+  --theme-error-container: oklch(91% 0.04 28);
+  --theme-on-error-container: oklch(22% 0.08 28);
+
+  --theme-background: oklch(96% 0.008 85);
+  --theme-on-background: oklch(14% 0.01 260);
+  --theme-surface: oklch(96% 0.008 85);
+  --theme-on-surface: oklch(14% 0.01 260);
+
+  --theme-surface-variant: oklch(90% 0.01 85);
+  --theme-on-surface-variant: oklch(42% 0.012 260);
+
+  --theme-surface-container-lowest: oklch(99% 0.004 85);
+  --theme-surface-container-low: oklch(94.5% 0.008 85);
+  --theme-surface-container: oklch(92.5% 0.009 85);
+  --theme-surface-container-high: oklch(89.5% 0.01 85);
+  --theme-surface-container-highest: oklch(86.5% 0.012 85);
+
+  --theme-outline: oklch(52% 0.012 260);
+  --theme-outline-variant: oklch(82% 0.01 260);
+  --theme-shadow: oklch(11% 0.008 260);
+  --theme-glass-specular: oklch(100% 0 0);
+
+  --theme-success: oklch(46% 0.11 155);
+  --theme-warning: oklch(48% 0.12 45);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+  overflow-x: clip;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  overflow-x: clip;
+  background-color: var(--color-background);
+  color: var(--color-on-background);
+  font-family: var(--font-primary);
+  transition: background-color var(--duration-ui) var(--ease-ui), color var(--duration-ui) var(--ease-ui);
+}
+
+.skip-link {
+  position: absolute;
+  top: -9999px;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  background-color: var(--color-on-surface);
+  color: var(--color-background);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.skip-link:focus-visible {
+  top: 1rem;
+}

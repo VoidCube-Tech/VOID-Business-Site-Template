@@ -1,0 +1,56 @@
+/* ============================================================================
+ * Tipografia Editorial & Bicolor (Padrão Tequs / Precisão Industrial)
+ * Zero gradientes multicoloridos de IA: contraste puro entre Branco-Osso e Cinza Técnico
+ * ============================================================================ */
+
+.headline-bicolor {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+
+.headline-bicolor-primary {
+  display: block;
+  color: var(--color-on-surface);
+}
+
+.headline-bicolor-secondary {
+  display: block;
+  color: var(--color-on-surface-variant);
+}
+
+.headline-accent {
+  font-family: var(--font-accent, serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Subtítulo / Kicker Arquitetônico Limpo (Mesma família geométrica do site, sem serif itálica e sem monospace) */
+.editorial-kicker {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 500;
+  font-size: clamp(0.875rem, 1.05vw, 0.96875rem);
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+  color: var(--color-on-surface-variant);
+}
+
+/* Link editorial sublinhado estilo Tequs */
+.editorial-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-on-surface);
+  border-bottom: 1px solid var(--color-on-surface);
+  padding-bottom: 0.2rem;
+  transition: opacity var(--duration-ui) var(--ease-ui), border-color var(--duration-ui) var(--ease-ui);
+}
+
+.editorial-link:hover {
+  opacity: 0.78;
+}

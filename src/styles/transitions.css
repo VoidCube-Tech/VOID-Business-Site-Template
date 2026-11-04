@@ -1,0 +1,78 @@
+/* ============================================================================
+ * Transições de Páginas & Feedback Visual de Navegação (Nativo Cross-Document)
+ * Transição limpa estilo Linear/Primefold: crossfade nativo de 120ms + barra
+ * superior minimalista de 2px, sem véu escuro ou piscadas entre rotas.
+ * ============================================================================ */
+
+@view-transition {
+  navigation: auto;
+}
+
+/* Véu não-intrusivo (mantém contrato de seletores sem escurecer a tela) */
+.page-transition-veil {
+  opacity: 0;
+  visibility: hidden;
+  background: transparent;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  transition: opacity 160ms cubic-bezier(0.16, 1, 0.3, 1), visibility 160ms;
+}
+
+html.page-is-navigating .page-transition-veil,
+#page-transition-loader.is-loading ~ .page-transition-veil {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Mantém contrato sem escurecer #app-page-content no clique */
+html.page-is-navigating #app-page-content {
+  opacity: 0.96;
+  transition: opacity 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes page-loader-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+
+#page-transition-loader {
+  opacity: 0;
+  transition: opacity 80ms ease-out;
+}
+
+#page-transition-loader.is-loading {
+  opacity: 1;
+}
+
+#page-transition-loader.is-loading .page-loader-bar {
+  animation: page-loader-slide 650ms cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  box-shadow: 0 0 16px var(--color-primary), 0 0 28px var(--color-tertiary);
+}
+
+/* ============================================================================
+ * Desempenho Contínuo no Scroll: CSS Content-Visibility Auto
+ * Libera CPU & GPU descartando custos de layout/paint das seções fora da viewport
+ * ============================================================================ */
+.section-contained {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 650px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #page-transition-loader.is-loading .page-loader-bar {
+    animation: none !important;
+  }
+  .page-transition-veil,
+  html.page-is-navigating #app-page-content {
+    filter: none !important;
+    transform: none !important;
+    transition: opacity 80ms linear !important;
+  }
+}
