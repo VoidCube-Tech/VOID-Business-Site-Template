@@ -1,0 +1,31 @@
+{
+  "name": "void-business-site-template",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Template demonstrável do produto Site Empresarial da VoidCube (VOID-23 / VOID-25) — Astro + TypeScript + HCT/OKLCH",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "sync:images": "node scripts/sync-front-images.mjs",
+    "dev": "node scripts/sync-front-images.mjs && astro dev",
+    "build": "node scripts/sync-front-images.mjs && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "test": "node --test tests/unit/*.test.ts tests/components/*.test.ts tests/integration/*.test.ts"
+  },
+  "dependencies": {
+    "@astrojs/react": "^6.0.5",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "astro": "^7.3.2",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "tailwindcss": "^4.3.3"
+  },
+  "allowScripts": {
+    "esbuild": true
+  }
+}
