@@ -59,13 +59,18 @@ export default function InteractiveArchitectureBlueprint() {
 
       <div className="relative overflow-hidden rounded-lg border border-outline-variant">
         <picture className="contents">
-          <source srcSet={PHOTO_ARCHIVE_TEXTURE_SET.avif} type="image/avif" />
-          <source srcSet={PHOTO_ARCHIVE_TEXTURE_SET.webp} type="image/webp" />
+          <source media="(max-width: 767px)" srcSet={PHOTO_ARCHIVE_TEXTURE_SET.mobileAvif} type="image/avif" />
+          <source media="(max-width: 767px)" srcSet={PHOTO_ARCHIVE_TEXTURE_SET.mobileWebp} type="image/webp" />
+          <source media="(min-width: 768px)" srcSet={PHOTO_ARCHIVE_TEXTURE_SET.avif} type="image/avif" />
+          <source media="(min-width: 768px)" srcSet={PHOTO_ARCHIVE_TEXTURE_SET.webp} type="image/webp" />
           <img
             src={PHOTO_ARCHIVE_TEXTURE_SET.src}
             alt=""
+            width={1280}
+            height={853}
             aria-hidden="true"
-            loading="eager"
+            loading="lazy"
+            fetchpriority="low"
             decoding="async"
             className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center opacity-25"
           />

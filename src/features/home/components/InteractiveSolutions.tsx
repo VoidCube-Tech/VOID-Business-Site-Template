@@ -14,6 +14,8 @@ export default function InteractiveSolutions() {
           <img
             src={PHOTO_NIGHT_GRID_SET.src}
             alt="Fachada corporativa iluminada representando operação financeira contínua."
+            width={1280}
+            height={853}
             loading="eager"
             decoding="async"
             className="split-photo-sharp object-center"

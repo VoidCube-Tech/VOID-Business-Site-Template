@@ -20,30 +20,33 @@ import {
   class="pointer-events-none fixed inset-0 -z-10 select-none overflow-hidden"
   aria-hidden="true"
 >
-  <!-- Camada 1: Difusão Óptica Central (Bokeh suave da fotografia real) -->
+  <!-- Camada 1: Difusão Óptica Central (Bokeh suave da fotografia real — usa variante compacta pois possui blur 22px) -->
   <picture class="atrium-layer-bokeh absolute inset-0 h-full w-full">
-    <source media="(max-width: 767px)" srcset={PHOTO_SHADOW_CORRIDOR_SET.mobileAvif} type="image/avif" />
-    <source media="(max-width: 767px)" srcset={PHOTO_SHADOW_CORRIDOR_SET.mobileWebp} type="image/webp" />
-    <source media="(min-width: 768px)" srcset={PHOTO_SHADOW_CORRIDOR_SET.avif} type="image/avif" />
-    <source media="(min-width: 768px)" srcset={PHOTO_SHADOW_CORRIDOR_SET.webp} type="image/webp" />
+    <source srcset={PHOTO_SHADOW_CORRIDOR_SET.mobileAvif} type="image/avif" />
+    <source srcset={PHOTO_SHADOW_CORRIDOR_SET.mobileWebp} type="image/webp" />
     <img
       src={SECONDARY_ARCHITECTURAL_IMAGE}
       alt=""
+      width="768"
+      height="512"
+      loading="lazy"
+      fetchpriority="low"
       decoding="async"
       class="atrium-image-bokeh h-full w-full object-cover object-center"
     />
   </picture>
 
-  <!-- Camada 2: Moldura Arquitetônica Periférica (Fachada em grade iluminada / Torres) -->
+  <!-- Camada 2: Moldura Arquitetônica Periférica (Usa variante compacta pois possui blur 5px e opacidade reduzida) -->
   <picture class="atrium-layer-structural absolute inset-0 h-full w-full">
-    <source media="(max-width: 767px)" srcset={PHOTO_ORBITAL_OFFICES_SET.mobileAvif} type="image/avif" />
-    <source media="(max-width: 767px)" srcset={PHOTO_ORBITAL_OFFICES_SET.mobileWebp} type="image/webp" />
-    <source media="(min-width: 768px)" srcset={PHOTO_ORBITAL_OFFICES_SET.avif} type="image/avif" />
-    <source media="(min-width: 768px)" srcset={PHOTO_ORBITAL_OFFICES_SET.webp} type="image/webp" />
+    <source srcset={PHOTO_ORBITAL_OFFICES_SET.mobileAvif} type="image/avif" />
+    <source srcset={PHOTO_ORBITAL_OFFICES_SET.mobileWebp} type="image/webp" />
     <img
       src={PRIMARY_ARCHITECTURAL_IMAGE}
       alt=""
-      fetchpriority="high"
+      width="768"
+      height="512"
+      loading="lazy"
+      fetchpriority="low"
       decoding="async"
       class="atrium-image h-full w-full object-cover object-center"
     />

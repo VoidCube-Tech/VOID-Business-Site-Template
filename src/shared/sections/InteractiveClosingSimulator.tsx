@@ -95,10 +95,9 @@ const SCENARIOS: readonly EntityScenario[] = [
 
 export default function InteractiveClosingSimulator() {
   const [selectedId, setSelectedId] = useState<EntityScenario['id']>('multi');
-  const current = SCENARIOS.find((item) => item.id === selectedId) ?? SCENARIOS[1];
 
   return (
-    <div id="interactive-closing-simulator" className="w-full">
+    <div id="interactive-closing-simulator" data-closing-simulator className="w-full">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-12 lg:gap-x-16 items-start">
         {/* Coluna Esquerda (4/12): Título Estático + Seletor Minimalista */}
         <div className="lg:col-span-4 min-w-0">
@@ -121,6 +120,7 @@ export default function InteractiveClosingSimulator() {
                   key={scenario.id}
                   type="button"
                   role="radio"
+                  data-simulator-radio={scenario.id}
                   aria-checked={isActive}
                   onClick={() => setSelectedId(scenario.id)}
                   className={[
@@ -137,21 +137,35 @@ export default function InteractiveClosingSimulator() {
           </div>
         </div>
 
-        {/* Coluna Direita (8/12): Grid 2x2 com Texto Reduzido e Direto */}
-        <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-x-10 lg:gap-x-16 gap-y-10 sm:gap-y-14 min-w-0">
-          {current.metrics.map((metric) => (
-            <article key={metric.title} className="min-w-0">
-              <h3 className="font-display text-xl sm:text-2xl font-semibold tracking-tight text-on-surface min-w-0 break-words">
-                {metric.title}
-              </h3>
-              <p className="mt-1 font-display text-sm text-on-surface-variant min-w-0 break-words">
-                {metric.subtitle}
-              </p>
-              <p className="mt-2 text-sm leading-relaxed text-on-surface-variant min-w-0 break-words">
-                {metric.detail}
-              </p>
-            </article>
-          ))}
+        {/* Coluna Direita (8/12): Grid 2x2 com Texto Reduzido e Direto (Pré-renderizado sem waterfall JS) */}
+        <div className="lg:col-span-8 min-w-0">
+          {SCENARIOS.map((scenario) => {
+            const isActive = scenario.id === selectedId;
+            return (
+              <div
+                key={scenario.id}
+                data-scenario-panel={scenario.id}
+                className={[
+                  'grid grid-cols-1 sm:grid-cols-2 gap-x-10 lg:gap-x-16 gap-y-10 sm:gap-y-14 min-w-0',
+                  isActive ? '' : 'hidden',
+                ].join(' ')}
+              >
+                {scenario.metrics.map((metric) => (
+                  <article key={metric.title} className="min-w-0">
+                    <h3 className="font-display text-xl sm:text-2xl font-semibold tracking-tight text-on-surface min-w-0 break-words">
+                      {metric.title}
+                    </h3>
+                    <p className="mt-1 font-display text-sm text-on-surface-variant min-w-0 break-words">
+                      {metric.subtitle}
+                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-on-surface-variant min-w-0 break-words">
+                      {metric.detail}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

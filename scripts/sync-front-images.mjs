@@ -29,7 +29,13 @@ async function optimizeImage(srcPath, baseName, targetDir) {
   const dstMobileAvif = path.join(targetDir, `${baseName}-mobile.avif`);
 
   const targets = [dstJpg, dstWebp, dstAvif, dstMobileWebp, dstMobileAvif];
-  const allExist = targets.every((f) => fs.existsSync(f) && fs.statSync(f).mtimeMs >= mtime);
+  const MAX_DESKTOP_BYTES = 240 * 1024;
+  const MAX_MOBILE_BYTES = 85 * 1024;
+  const allExist =
+    targets.every((f) => fs.existsSync(f) && fs.statSync(f).mtimeMs >= mtime) &&
+    fs.statSync(dstAvif).size <= MAX_DESKTOP_BYTES &&
+    fs.statSync(dstWebp).size <= MAX_DESKTOP_BYTES &&
+    fs.statSync(dstMobileAvif).size <= MAX_MOBILE_BYTES;
 
   if (allExist) {
     return {
@@ -41,43 +47,44 @@ async function optimizeImage(srcPath, baseName, targetDir) {
     };
   }
 
-  // Pipeline paralelo com Sharp: Desktop 2048px + Mobile 960px
+  // Pipeline paralelo com Sharp: Desktop 1280px (alinhado ao container max-w-7xl) + Mobile 768px
+  // Compressão perceptual agressiva para zero payload excessivo (< 220KB desktop / < 65KB mobile)
   const pipeline = sharp(srcPath).rotate(); // auto-orient based on EXIF
 
   await Promise.all([
-    // Fallback JPEG otimizado (2048px, q=84, mozjpeg)
+    // Fallback JPEG otimizado (1280px, q=72, mozjpeg)
     pipeline
       .clone()
-      .resize({ width: 2048, withoutEnlargement: true })
-      .jpeg({ quality: 84, mozjpeg: true })
+      .resize({ width: 1280, withoutEnlargement: true })
+      .jpeg({ quality: 72, mozjpeg: true })
       .toFile(dstJpg),
 
-    // Desktop WebP (2048px, q=82)
+    // Desktop WebP (1280px, q=66)
     pipeline
       .clone()
-      .resize({ width: 2048, withoutEnlargement: true })
-      .webp({ quality: 82, effort: 4 })
+      .resize({ width: 1280, withoutEnlargement: true })
+      .webp({ quality: 66, effort: 4 })
       .toFile(dstWebp),
 
-    // Desktop AVIF (2048px, q=75, effort=3)
+    // Desktop AVIF (1280px, q=50, effort=4)
     pipeline
       .clone()
-      .resize({ width: 2048, withoutEnlargement: true })
-      .avif({ quality: 75, effort: 3 })
+      .resize({ width: 1280, withoutEnlargement: true })
+      .avif({ quality: 50, effort: 4 })
       .toFile(dstAvif),
 
-    // Mobile WebP (960px, q=80)
+    // Mobile WebP (768px, q=60)
     pipeline
       .clone()
-      .resize({ width: 960, withoutEnlargement: true })
-      .webp({ quality: 80, effort: 4 })
+      .resize({ width: 768, withoutEnlargement: true })
+      .webp({ quality: 60, effort: 4 })
       .toFile(dstMobileWebp),
 
-    // Mobile AVIF (960px, q=72, effort=3)
+    // Mobile AVIF (768px, q=45, effort=4)
     pipeline
       .clone()
-      .resize({ width: 960, withoutEnlargement: true })
-      .avif({ quality: 72, effort: 3 })
+      .resize({ width: 768, withoutEnlargement: true })
+      .avif({ quality: 45, effort: 4 })
       .toFile(dstMobileAvif),
   ]);
 

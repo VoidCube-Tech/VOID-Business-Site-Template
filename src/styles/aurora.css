@@ -62,11 +62,12 @@
     transform 750ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-html.reveal-enabled .split-photo-sharp:not(.is-loaded) {
+html.reveal-enabled .split-photo-stage .split-photo-sharp:not(.is-loaded) {
   opacity: 0;
   transform: scale(1.025);
 }
 
+html.reveal-enabled .split-photo-stage .split-photo-sharp.is-loaded,
 html.reveal-enabled .split-photo-sharp.is-loaded {
   opacity: 1;
   transform: scale(1);

@@ -36,9 +36,9 @@ const RAW_ENTRIES: readonly FrontImageAsset[] = [
     "avifPath": "/images/front/pexels-candid-flaneur-175964800-29931645.avif",
     "mobileWebpPath": "/images/front/pexels-candid-flaneur-175964800-29931645-mobile.webp",
     "mobileAvifPath": "/images/front/pexels-candid-flaneur-175964800-29931645-mobile.avif",
-    "bytes": 415665,
-    "webpBytes": 285866,
-    "avifBytes": 337187
+    "bytes": 142819,
+    "webpBytes": 98822,
+    "avifBytes": 71293
   },
   {
     "id": "pexels-edocoledoco-14340820",
@@ -62,9 +62,9 @@ const RAW_ENTRIES: readonly FrontImageAsset[] = [
     "avifPath": "/images/front/pexels-emmanuel-hernandez-54157570-18128706.avif",
     "mobileWebpPath": "/images/front/pexels-emmanuel-hernandez-54157570-18128706-mobile.webp",
     "mobileAvifPath": "/images/front/pexels-emmanuel-hernandez-54157570-18128706-mobile.avif",
-    "bytes": 666848,
-    "webpBytes": 612160,
-    "avifBytes": 699112
+    "bytes": 200079,
+    "webpBytes": 144850,
+    "avifBytes": 92653
   },
   {
     "id": "pexels-fatih-turan-63325184-16553906",
@@ -75,9 +75,9 @@ const RAW_ENTRIES: readonly FrontImageAsset[] = [
     "avifPath": "/images/front/pexels-fatih-turan-63325184-16553906.avif",
     "mobileWebpPath": "/images/front/pexels-fatih-turan-63325184-16553906-mobile.webp",
     "mobileAvifPath": "/images/front/pexels-fatih-turan-63325184-16553906-mobile.avif",
-    "bytes": 784054,
-    "webpBytes": 871430,
-    "avifBytes": 1064273
+    "bytes": 164332,
+    "webpBytes": 95808,
+    "avifBytes": 82228
   },
   {
     "id": "pexels-marc-barcelona-2573466-37089683",
@@ -88,9 +88,9 @@ const RAW_ENTRIES: readonly FrontImageAsset[] = [
     "avifPath": "/images/front/pexels-marc-barcelona-2573466-37089683.avif",
     "mobileWebpPath": "/images/front/pexels-marc-barcelona-2573466-37089683-mobile.webp",
     "mobileAvifPath": "/images/front/pexels-marc-barcelona-2573466-37089683-mobile.avif",
-    "bytes": 808283,
-    "webpBytes": 507094,
-    "avifBytes": 669461
+    "bytes": 268397,
+    "webpBytes": 171504,
+    "avifBytes": 119849
   },
   {
     "id": "pexels-resourceboy-18541878",
@@ -101,9 +101,9 @@ const RAW_ENTRIES: readonly FrontImageAsset[] = [
     "avifPath": "/images/front/pexels-resourceboy-18541878.avif",
     "mobileWebpPath": "/images/front/pexels-resourceboy-18541878-mobile.webp",
     "mobileAvifPath": "/images/front/pexels-resourceboy-18541878-mobile.avif",
-    "bytes": 815493,
-    "webpBytes": 934362,
-    "avifBytes": 1091740
+    "bytes": 191294,
+    "webpBytes": 161536,
+    "avifBytes": 147940
   },
   {
     "id": "pexels-sevenstormphotography-946310",
@@ -114,9 +114,9 @@ const RAW_ENTRIES: readonly FrontImageAsset[] = [
     "avifPath": "/images/front/pexels-sevenstormphotography-946310.avif",
     "mobileWebpPath": "/images/front/pexels-sevenstormphotography-946310-mobile.webp",
     "mobileAvifPath": "/images/front/pexels-sevenstormphotography-946310-mobile.avif",
-    "bytes": 352457,
-    "webpBytes": 275304,
-    "avifBytes": 313926
+    "bytes": 117301,
+    "webpBytes": 78778,
+    "avifBytes": 49620
   },
   {
     "id": "pexels-sudhanshu-sharma-1567278-38914615",
@@ -127,9 +127,9 @@ const RAW_ENTRIES: readonly FrontImageAsset[] = [
     "avifPath": "/images/front/pexels-sudhanshu-sharma-1567278-38914615.avif",
     "mobileWebpPath": "/images/front/pexels-sudhanshu-sharma-1567278-38914615-mobile.webp",
     "mobileAvifPath": "/images/front/pexels-sudhanshu-sharma-1567278-38914615-mobile.avif",
-    "bytes": 1027025,
-    "webpBytes": 879348,
-    "avifBytes": 839126
+    "bytes": 326712,
+    "webpBytes": 298784,
+    "avifBytes": 170670
   },
   {
     "id": "pexels-thekrm-22711217",

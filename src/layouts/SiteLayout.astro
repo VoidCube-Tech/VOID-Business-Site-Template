@@ -9,8 +9,8 @@ import LoadingShell from '../shared/loading/LoadingShell.astro';
 import {
   PHOTO_MODULAR_CURVE_SET,
   PHOTO_NIGHT_GRID_SET,
-  PHOTO_ORBITAL_OFFICES_SET,
   PHOTO_AMBER_LOUVERS_SET,
+  type ResponsiveImageSet,
 } from '../shared/media/frontImages';
 import { withBase } from '../shared/routing/paths';
 
@@ -25,10 +25,22 @@ const {
   description,
   currentPath = Astro.url.pathname,
 } = Astro.props;
+
+// Determina a imagem LCP exata da rota atual para evitar preloads desnecessários
+const cleanRoute = currentPath.replace(/^\/VOID-Business-Site-Template/, '').replace(/\/$/, '') || '/';
+const lcpImageSet: ResponsiveImageSet | null =
+  cleanRoute === '/'
+    ? PHOTO_MODULAR_CURVE_SET
+    : cleanRoute === '/sobre'
+      ? PHOTO_AMBER_LOUVERS_SET
+      : cleanRoute === '/produtos' || cleanRoute === '/servicos'
+        ? PHOTO_NIGHT_GRID_SET
+        : null;
+const swUrl = withBase('/sw.js');
 ---
 
 <!doctype html>
-<html lang="pt-BR" data-theme="dark" class="dark">
+<html lang="pt-BR" data-theme="dark" class="dark" data-sw-url={swUrl}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -40,15 +52,39 @@ const {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
     <link rel="ard" href={withBase('/.well-known/ard.json')} />
     <link rel="describedby" type="text/plain" href={withBase('/llms.txt')} />
-    <link rel="preload" as="image" type="image/webp" href={PHOTO_MODULAR_CURVE_SET.webp} />
-    <link rel="preload" as="image" type="image/webp" href={PHOTO_NIGHT_GRID_SET.webp} />
-    <link rel="preload" as="image" type="image/webp" href={PHOTO_ORBITAL_OFFICES_SET.webp} />
-    <link rel="preload" as="image" type="image/webp" href={PHOTO_AMBER_LOUVERS_SET.webp} />
+    {lcpImageSet && (
+      <>
+        <link
+          rel="preload"
+          as="image"
+          type="image/avif"
+          href={lcpImageSet.mobileAvif}
+          media="(max-width: 767px)"
+          fetchpriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
+          type="image/avif"
+          href={lcpImageSet.avif}
+          media="(min-width: 768px)"
+          fetchpriority="high"
+        />
+      </>
+    )}
     <title>{title}</title>
 
     <script is:inline>
@@ -160,8 +196,39 @@ const {
 
         document.addEventListener('click', (event) => {
           if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+          const targetEl = event.target instanceof Element ? event.target : null;
+          if (targetEl) {
+            const radioBtn = targetEl.closest('[data-simulator-radio]');
+            if (radioBtn) {
+              const scenarioId = radioBtn.getAttribute('data-simulator-radio');
+              const container = radioBtn.closest('[data-closing-simulator]');
+              if (scenarioId && container) {
+                container.querySelectorAll('[data-simulator-radio]').forEach((btn) => {
+                  const active = btn.getAttribute('data-simulator-radio') === scenarioId;
+                  btn.setAttribute('aria-checked', String(active));
+                  btn.className = [
+                    'rounded-full border px-3.5 py-1.5 text-xs sm:text-sm font-medium transition-colors cursor-pointer',
+                    active
+                      ? 'border-on-surface bg-on-surface text-background'
+                      : 'border-outline-variant bg-transparent text-on-surface-variant hover:border-outline hover:text-on-surface',
+                  ].join(' ');
+                });
+                container.querySelectorAll('[data-scenario-panel]').forEach((panel) => {
+                  const active = panel.getAttribute('data-scenario-panel') === scenarioId;
+                  panel.classList.toggle('hidden', !active);
+                });
+                return;
+              }
+            }
+          }
           triggerPageTransition(event.target);
         });
+
+        if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register(document.documentElement.dataset.swUrl || '/sw.js').catch(() => {});
+          }, { once: true });
+        }
       })();
     </script>
   </body>

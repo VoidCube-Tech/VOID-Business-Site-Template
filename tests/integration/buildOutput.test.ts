@@ -46,6 +46,11 @@ describe('Static Build Output & Accessibility / Design System V2 Integration', (
     assert.ok(indexHtml.includes('<picture'), 'Elemento <picture> para imagens responsivas ausente na Home');
     assert.ok(indexHtml.includes('type="image/avif"'), 'Fonte type="image/avif" ausente no HTML');
     assert.ok(indexHtml.includes('type="image/webp"'), 'Fonte type="image/webp" ausente no HTML');
+    assert.ok(indexHtml.includes('rel="preload" as="style"'), 'Google Fonts deve usar carregamento assíncrono não-bloqueante');
+    assert.ok(indexHtml.includes('media="(max-width: 767px)"') && indexHtml.includes('fetchpriority="high"'), 'Preload LCP responsivo por media query ausente');
+    assert.ok(!indexHtml.includes('_astro/'), 'Zero cadeias de hidratação JS externas desnecessárias no HTML');
+    assert.ok(fs.existsSync(path.join(distDir, '_headers')), 'Arquivo _headers de cache imutável ausente no build');
+    assert.ok(fs.existsSync(path.join(distDir, 'sw.js')), 'Service Worker sw.js de cache-first ausente no build');
   });
 
   it('gera manifesto JSON válido em /.well-known/ard.json', () => {

@@ -9,6 +9,8 @@ interface Props {
   fetchpriority?: 'high' | 'low' | 'auto';
   loading?: 'eager' | 'lazy';
   decoding?: 'async' | 'sync' | 'auto';
+  width?: number;
+  height?: number;
   breakpoints?: {
     mobileMax?: number;
   };
@@ -21,6 +23,8 @@ const {
   fetchpriority = 'auto',
   loading = 'eager',
   decoding = 'async',
+  width = 1280,
+  height = 853,
   breakpoints = { mobileMax: 767 },
 } = Astro.props;
 
@@ -48,6 +52,8 @@ const desktopMediaQuery = `(min-width: ${(breakpoints.mobileMax ?? 767) + 1}px)`
   <img
     src={src}
     alt={alt}
+    width={width}
+    height={height}
     fetchpriority={fetchpriority}
     loading={loading}
     decoding={decoding}
