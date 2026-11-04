@@ -1,0 +1,73 @@
+---
+/**
+ * OperationalVerticals — Layout Espaçado & Editorialmente Limpo (Shared Domain Section)
+ * - Coluna Esquerda: Título 'Verticais' + subtítulo conciso
+ * - Coluna Direita: Grid 2x2 com títulos claros e descrições diretas em 1 linha
+ */
+interface OperationalVertical {
+  readonly id: string;
+  readonly title: string;
+  readonly detail: string;
+}
+
+const OPERATIONAL_VERTICALS: readonly OperationalVertical[] = [
+  {
+    id: 'holdings',
+    title: 'Holdings & Grupos',
+    detail: 'Consolidação societária e livros contábeis unificados em tempo real.',
+  },
+  {
+    id: 'industria',
+    title: 'Indústria & Manufatura',
+    detail: 'Rastreabilidade física por lote e apuração de custo médio sem retrabalho.',
+  },
+  {
+    id: 'servicos',
+    title: 'Serviços & Recorrência',
+    detail: 'Gestão de contratos corporativos e faturamento previsível por projeto.',
+  },
+  {
+    id: 'tesouraria',
+    title: 'Tesouraria & Finanças',
+    detail: 'Conciliação bancária contínua e liquidação instantânea via Open Finance.',
+  },
+] as const;
+---
+
+<section
+  id="verticais"
+  aria-labelledby="verticais-heading"
+  data-reveal
+  class="relative py-20 sm:py-24 lg:py-32"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-12 lg:gap-x-16 items-start">
+      <!-- Coluna Esquerda (4/12): Estática na Seção -->
+      <div class="lg:col-span-4 min-w-0">
+        <h2
+          id="verticais-heading"
+          class="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-on-surface min-w-0 break-words"
+        >
+          Verticais
+        </h2>
+        <p class="mt-3 max-w-sm text-sm sm:text-base leading-relaxed text-on-surface-variant min-w-0 break-words">
+          Arquitetura calibrada por setor operacional.
+        </p>
+      </div>
+
+      <!-- Coluna Direita (8/12): Grid 2x2 com Texto Reduzido e Direto -->
+      <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-x-10 lg:gap-x-16 gap-y-10 sm:gap-y-14 min-w-0">
+        {OPERATIONAL_VERTICALS.map((vertical) => (
+          <article id={`vertical-${vertical.id}`} class="min-w-0">
+            <h3 class="font-display text-base sm:text-lg lg:text-xl font-semibold tracking-tight text-on-surface min-w-0 break-words">
+              {vertical.title}
+            </h3>
+            <p class="mt-2 text-sm leading-relaxed text-on-surface-variant min-w-0 break-words">
+              {vertical.detail}
+            </p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
