@@ -10,12 +10,18 @@ const { PUBLIC_SITE_URL } = loadEnv(
   'PUBLIC_'
 );
 
+// Suporte automático para GitHub Pages e Domínios Personalizados
+const isGitHubPages = process.env.GITHUB_ACTIONS === 'true';
+const site = PUBLIC_SITE_URL || (isGitHubPages ? 'https://voidcube-tech.github.io' : 'https://periphelion.app');
+const base = PUBLIC_SITE_URL ? '/' : (isGitHubPages ? '/VOID-Business-Site-Template' : '/');
+
 export default defineConfig({
   output: 'static',
   build: {
     inlineStylesheets: 'always',
   },
-  site: PUBLIC_SITE_URL || 'https://periphelion.app',
+  site,
+  base,
   integrations: [react()],
   vite: {
     plugins: [tailwindcss()],
