@@ -1,0 +1,140 @@
+---
+import { PHOTO_AMBER_LOUVERS_SET, PHOTO_SHADOW_CORRIDOR_SET } from '../../shared/media/frontImages';
+import ResponsivePicture from '../../shared/ui/ResponsivePicture.astro';
+
+const deploymentSteps = [
+  {
+    title: 'Diagnóstico & Plano de Contas',
+    detail: 'Mapeamento de filiais, regras fiscais e integrações bancárias antes da configuração.',
+  },
+  {
+    title: 'Migração Saneada de Dados',
+    detail: 'Importação assistida de cadastros, saldos e inventário histórico sem perda de dados.',
+  },
+  {
+    title: 'Homologação Espelhada',
+    detail: 'Validação simultânea de conciliação bancária, notas fiscais e SPED antes da virada.',
+  },
+  {
+    title: 'Virada Assistida & Produção',
+    detail: 'Entrada em operação sem interrupções com acompanhamento de arquitetos especialistas.',
+  },
+] as const;
+---
+
+<!-- ============================================================================
+     1. HERO INSTITUCIONAL — Fotografia ao Fundo (Metade Esquerda Desfocada / Direita Nítida)
+     ============================================================================ -->
+<section
+  id="sobre"
+  aria-labelledby="about-heading"
+  class="relative pt-36 pb-12 sm:pt-44 sm:pb-16"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="split-photo-stage min-h-[460px] sm:min-h-[520px] lg:min-h-[560px] flex items-end md:items-center">
+      <ResponsivePicture
+        image={PHOTO_AMBER_LOUVERS_SET}
+        alt="Fachada corporativa com brises e equipe em reunião representando transparência e governança."
+        fetchpriority="high"
+        loading="eager"
+        decoding="async"
+        class="split-photo-sharp object-center"
+      />
+
+      <!-- Lente de Desfoque na Metade Esquerda (Desktop) / Inferior (Mobile) -->
+      <div class="split-lens-left" aria-hidden="true"></div>
+
+      <div class="relative z-10 w-full p-6 sm:p-12 lg:p-16">
+        <div class="w-full md:max-w-[52%] lg:max-w-[48%] min-w-0">
+          <h1
+            id="about-heading"
+            class="headline-bicolor text-2xl sm:text-4xl lg:text-5xl tracking-tight min-w-0 break-words"
+          >
+            <span class="headline-bicolor-primary">Precisão para operações críticas.</span>
+            <span class="headline-bicolor-secondary">Engenharia financeira sem caixas-pretas.</span>
+          </h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================================
+     2. GOVERNANÇA & SOBERANIA DE DADOS — Fotografia ao Fundo (Metade Direita Desfocada / Esquerda Nítida)
+     ============================================================================ -->
+<section
+  id="governanca"
+  aria-labelledby="governanca-heading"
+  data-reveal
+  class="relative py-16 sm:py-24 lg:py-28"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="split-photo-stage min-h-[460px] sm:min-h-[520px] lg:min-h-[560px] flex items-end md:items-center">
+      <ResponsivePicture
+        image={PHOTO_SHADOW_CORRIDOR_SET}
+        alt="Arquitetura em perspectiva com feixes de luz representando rastreabilidade e clareza."
+        loading="eager"
+        decoding="async"
+        class="split-photo-sharp object-center"
+      />
+
+      <!-- Lente de Desfoque na Metade Direita (Desktop) / Inferior (Mobile) -->
+      <div class="split-lens-right" aria-hidden="true"></div>
+
+      <div class="relative z-10 w-full p-6 sm:p-12 lg:p-16">
+        <div class="w-full md:max-w-[52%] lg:max-w-[48%] md:ml-auto min-w-0">
+          <h2
+            id="governanca-heading"
+            class="headline-bicolor text-2xl sm:text-3xl lg:text-4xl min-w-0 break-words"
+          >
+            <span class="headline-bicolor-primary">Dados auditáveis na origem.</span>
+            <span class="headline-bicolor-secondary">Soberania total para o conselho.</span>
+          </h2>
+
+          <p class="mt-5 text-sm sm:text-base lg:text-lg leading-relaxed text-on-surface-variant min-w-0 break-words">
+            Cada movimentação financeira ou fiscal é assinada de forma determinística, garantindo que auditorias externas e fiscalizações sejam atendidas em minutos, sem lock-in.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================================
+     3. METODOLOGIA DE IMPLANTAÇÃO ASSISTIDA — Layout Espaçado Estático (Sem sticky)
+     ============================================================================ -->
+<section
+  id="metodologia"
+  aria-labelledby="metodologia-heading"
+  data-reveal
+  class="relative py-20 sm:py-24 lg:py-32"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-12 lg:gap-x-16 items-start">
+      <div class="lg:col-span-4 min-w-0">
+        <h2
+          id="metodologia-heading"
+          class="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-on-surface min-w-0 break-words"
+        >
+          Implantação
+        </h2>
+        <p class="mt-3 max-w-sm text-sm sm:text-base leading-relaxed text-on-surface-variant min-w-0 break-words">
+          Transição assistida em 4 etapas com homologação espelhada antes da virada.
+        </p>
+      </div>
+
+      <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-x-10 lg:gap-x-16 gap-y-10 sm:gap-y-14 min-w-0">
+        {deploymentSteps.map((step) => (
+          <article class="min-w-0">
+            <h3 class="font-display text-base sm:text-lg lg:text-xl font-semibold tracking-tight text-on-surface min-w-0 break-words">
+              {step.title}
+            </h3>
+            <p class="mt-2 text-sm leading-relaxed text-on-surface-variant min-w-0 break-words">
+              {step.detail}
+            </p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

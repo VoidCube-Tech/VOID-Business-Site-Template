@@ -1,0 +1,193 @@
+---
+import { BRAND } from '../../shared/brand/brand';
+
+const focusTopics = [
+  'Tesouraria & Pix',
+  'Fiscal & IBS/CBS',
+  'Estoque & Custos',
+  'ERP Completo',
+] as const;
+---
+
+<!-- ============================================================================
+     CONTATO — Composição Aberta e Inovadora (Zero Card Pesado, Zero Poluição Textual)
+     ============================================================================ -->
+<section
+  aria-labelledby="contact-page-heading"
+  class="relative pt-40 pb-32 sm:pt-48 sm:pb-44"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Placeholders de Governança Comercial invisíveis -->
+    <span class="sr-only" data-commercial-placeholder="COM-01">Catálogo</span>
+    <span class="sr-only" data-commercial-placeholder="COM-03">Modalidade</span>
+    <span class="sr-only" data-commercial-placeholder="COM-04">Sob consulta</span>
+
+    <div
+      data-commercial-placeholder="COM-06"
+      class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start"
+    >
+      <!-- Coluna Esquerda (5/12): Tipografia Bicolor + Canal Direto em Grande Escala -->
+      <div class="lg:col-span-5 min-w-0">
+        <h1
+          id="contact-page-heading"
+          class="headline-bicolor text-4xl sm:text-5xl lg:text-6xl tracking-tight min-w-0 break-words"
+        >
+          <span class="headline-bicolor-primary">Inicie uma conversa.</span>
+          <span class="headline-bicolor-secondary">Engenharia direta, sem intermediários.</span>
+        </h1>
+
+        <p class="mt-6 max-w-md text-base sm:text-lg leading-relaxed text-on-surface-variant min-w-0 break-words">
+          Converse diretamente com os arquitetos do sistema sobre a estrutura da sua operação.
+        </p>
+
+        <div class="mt-14 border-t border-outline-variant pt-8">
+          <p class="editorial-kicker">
+            Correio Direto
+          </p>
+          <a
+            href={`mailto:${BRAND.contactEmail}`}
+            class="mt-2 inline-block font-display text-xl sm:text-2xl font-semibold tracking-tight text-on-surface hover:opacity-75 transition-opacity break-all"
+          >
+            {BRAND.contactEmail}
+          </a>
+        </div>
+      </div>
+
+      <!-- Coluna Direita (7/12): Composer Minimalista em Linhas Arquitetônicas (Sem Caixa/Card) -->
+      <div class="lg:col-span-7 min-w-0">
+        <form
+          id="direct-diagnosis-form"
+          class="space-y-10 min-w-0"
+        >
+          <!-- Seletor Rápido de Assunto em Linha -->
+          <div>
+            <p class="editorial-kicker mb-4">
+              Foco Principal
+            </p>
+            <div class="flex flex-wrap gap-2.5" id="topic-selector">
+              {focusTopics.map((topic, idx) => (
+                <button
+                  type="button"
+                  data-topic={topic}
+                  aria-pressed={idx === 0 ? 'true' : 'false'}
+                  class:list={[
+                    'topic-pill rounded-full border px-4 py-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer',
+                    idx === 0
+                      ? 'border-on-surface bg-on-surface text-background'
+                      : 'border-outline-variant bg-transparent text-on-surface-variant hover:border-outline hover:text-on-surface',
+                  ]}
+                >
+                  {topic}
+                </button>
+              ))}
+            </div>
+            <input type="hidden" name="topic" id="selected-topic-input" value={focusTopics[0]} />
+          </div>
+
+          <!-- 3 Linhas Arquitetônicas Puras (Sem Caixa Fechada) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 min-w-0">
+            <div class="min-w-0">
+              <label for="contact-name" class="block editorial-kicker">
+                Nome
+              </label>
+              <input
+                id="contact-name"
+                name="name"
+                type="text"
+                required
+                placeholder="Seu nome"
+                class="mt-1 w-full border-0 border-b border-outline-variant bg-transparent py-3 text-base sm:text-lg text-on-surface placeholder:text-on-surface-variant/40 focus:border-on-surface focus:outline-none transition-colors"
+              />
+            </div>
+
+            <div class="min-w-0">
+              <label for="contact-email" class="block editorial-kicker">
+                E-mail Corporativo
+              </label>
+              <input
+                id="contact-email"
+                name="email"
+                type="email"
+                required
+                placeholder="voce@empresa.com.br"
+                class="mt-1 w-full border-0 border-b border-outline-variant bg-transparent py-3 text-base sm:text-lg text-on-surface placeholder:text-on-surface-variant/40 focus:border-on-surface focus:outline-none transition-colors"
+              />
+            </div>
+          </div>
+
+          <div class="min-w-0">
+            <label for="contact-challenge" class="block editorial-kicker">
+              Mensagem
+            </label>
+            <textarea
+              id="contact-challenge"
+              name="challenge"
+              rows="2"
+              required
+              placeholder="Resumo do cenário ou objetivo..."
+              class="mt-1 w-full resize-none border-0 border-b border-outline-variant bg-transparent py-3 text-base sm:text-lg text-on-surface placeholder:text-on-surface-variant/40 focus:border-on-surface focus:outline-none transition-colors"
+            ></textarea>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-6 pt-2">
+            <p id="contact-feedback" class="text-sm text-on-surface-variant" aria-live="polite"></p>
+            <button
+              type="submit"
+              class="editorial-link text-base cursor-pointer"
+            >
+              <span>Enviar mensagem</span>
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ contactEmail: BRAND.contactEmail }}>
+  (() => {
+    const topicContainer = document.getElementById('topic-selector');
+    const topicInput = document.getElementById('selected-topic-input');
+    const form = document.getElementById('direct-diagnosis-form');
+    const feedback = document.getElementById('contact-feedback');
+
+    if (topicContainer && topicInput instanceof HTMLInputElement) {
+      topicContainer.addEventListener('click', (event) => {
+        const btn = event.target instanceof Element ? event.target.closest('button[data-topic]') : null;
+        if (!btn) return;
+        const topic = btn.getAttribute('data-topic') || '';
+        topicInput.value = topic;
+
+        topicContainer.querySelectorAll('button[data-topic]').forEach((el) => {
+          const active = el === btn;
+          el.setAttribute('aria-pressed', String(active));
+          el.className = active
+            ? 'topic-pill rounded-full border px-4 py-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer border-on-surface bg-on-surface text-background'
+            : 'topic-pill rounded-full border px-4 py-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer border-outline-variant bg-transparent text-on-surface-variant hover:border-outline hover:text-on-surface';
+        });
+      });
+    }
+
+    if (form instanceof HTMLFormElement) {
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const data = new FormData(form);
+        const name = String(data.get('name') || '').trim();
+        const email = String(data.get('email') || '').trim();
+        const topic = String(data.get('topic') || 'ERP').trim();
+        const challenge = String(data.get('challenge') || '').trim();
+
+        const subject = encodeURIComponent(`Periphelion — ${topic} (${name})`);
+        const body = encodeURIComponent(
+          `Nome: ${name}\nE-mail: ${email}\nFoco: ${topic}\n\nMensagem:\n${challenge}`
+        );
+
+        if (feedback) {
+          feedback.textContent = 'Abrindo cliente de e-mail corporativo...';
+        }
+        window.location.href = `mailto:${contactEmail}?subject=${subject}&body=${body}`;
+      });
+    }
+  })();
+</script>

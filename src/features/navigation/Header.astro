@@ -1,0 +1,313 @@
+---
+/**
+ * Header V2 — Cápsula Liquid Glass Óptica com Interruptor Minimalista & Auto-Hide
+ * - Tipografia "Periphelion" estática à esquerda
+ * - Links centrais diretos ("Início", "Produtos", "Sobre", "Contato")
+ * - Interruptor de tema inspirado em Interruptor tema.png com transição deslizante fluida
+ * - No mobile: apenas 2 traços horizontais paralelos limpos (sem texto "Menu")
+ * - Oculta ao rolar para baixo e retorna ao rolar para cima
+ */
+import {
+  liquidGlassHeaderStyle,
+} from '../../shared/effects/liquid-glass/liquidGlass';
+import Icon from '../../shared/ui/Icon.astro';
+import { BRAND } from '../../shared/brand/brand';
+
+interface Props {
+  readonly currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+const normalizedPath = currentPath.replace(/\/$/, '') || '/';
+
+const navItems = [
+  { label: 'Início', href: '/' },
+  { label: 'Produtos', href: '/produtos' },
+  { label: 'Sobre', href: '/sobre' },
+  { label: 'Contato', href: '/contato' },
+] as const;
+---
+
+<header
+  id="mainNav"
+  class="fixed top-5 inset-x-4 sm:inset-x-8 z-50 mx-auto max-w-6xl pointer-events-none"
+>
+  <div
+    id="mainNavBar"
+    style={liquidGlassHeaderStyle}
+    class="navigation-glass pointer-events-auto flex items-center justify-between gap-4 rounded-full px-5 py-2.5 sm:px-7 transition-all duration-300 ease-out will-change-transform"
+  >
+    <!-- Marca Tipográfica Periphelion Pura (Sem ícone, apenas o nome) -->
+    <a
+      href="/"
+      class="inline-flex items-center font-display text-base sm:text-lg font-semibold tracking-tight text-on-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-on-surface"
+    >
+      {BRAND.name}
+    </a>
+
+    <!-- Links Centrais Diretos -->
+    <nav aria-label="Navegação principal" class="hidden md:flex items-center gap-8">
+      {navItems.map((item) => {
+        const isCurrent = item.href === normalizedPath;
+        return (
+          <a
+            href={item.href}
+            aria-current={isCurrent ? 'page' : undefined}
+            class:list={[
+              'text-sm font-medium transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-on-surface',
+              isCurrent
+                ? 'text-on-surface'
+                : 'text-on-surface-variant hover:text-on-surface',
+            ]}
+          >
+            {item.label}
+          </a>
+        );
+      })}
+    </nav>
+
+    <!-- Interruptor de Tema Deslizante (Inspirado em Interruptor tema.png) + Traços Mobile -->
+    <div class="flex items-center gap-3">
+      <button
+        type="button"
+        id="themeToggleBtn"
+        role="switch"
+        aria-checked="true"
+        aria-label="Alternar entre modo escuro e claro"
+        title="Alternar tema"
+        class="group relative inline-flex h-6 w-11 items-center justify-center cursor-pointer text-on-surface hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-on-surface"
+      >
+        <svg
+          class="h-6 w-11"
+          viewBox="0 0 44 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <!-- Trilha externa em cápsula -->
+          <rect
+            x="1.25"
+            y="1.25"
+            width="41.5"
+            height="21.5"
+            rx="10.75"
+            stroke="currentColor"
+            stroke-width="1.6"
+          />
+          <!-- Trilha interna sutil -->
+          <rect
+            x="3.75"
+            y="3.75"
+            width="36.5"
+            height="16.5"
+            rx="8.25"
+            stroke="currentColor"
+            stroke-width="1"
+            stroke-opacity="0.35"
+          />
+          <!-- Círculo deslizante do interruptor -->
+          <circle
+            id="themeKnobCircle"
+            cx="12"
+            cy="12"
+            r="5.5"
+            fill="currentColor"
+            class="theme-knob-circle"
+          />
+        </svg>
+      </button>
+
+      <!-- Gatilho Mobile Minimalista: Apenas 2 Linhas Paralelas -->
+      <button
+        type="button"
+        id="navDrawerToggle"
+        aria-label="Abrir menu de navegação"
+        aria-expanded="false"
+        aria-controls="navDrawerPanel"
+        class="inline-flex md:hidden h-8 w-8 items-center justify-center text-on-surface hover:opacity-80 cursor-pointer transition-opacity focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-on-surface"
+      >
+        <svg
+          class="h-5 w-6 text-on-surface"
+          viewBox="0 0 24 18"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="square"
+          aria-hidden="true"
+        >
+          <line x1="2" y1="5.5" x2="22" y2="5.5" />
+          <line x1="2" y1="12.5" x2="22" y2="12.5" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Backdrop do Drawer Mobile -->
+  <div
+    id="navDrawerBackdrop"
+    aria-hidden="true"
+    class="pointer-events-none fixed inset-0 z-40 bg-background/60 opacity-0 backdrop-blur-xs transition-opacity duration-250"
+  ></div>
+
+  <!-- Painel Lateral Mobile em Liquid Glass -->
+  <aside
+    id="navDrawerPanel"
+    aria-label="Menu lateral"
+    style={liquidGlassHeaderStyle}
+    class="navigation-glass pointer-events-none fixed top-3 right-3 bottom-3 z-50 flex w-72 max-w-[calc(100vw-1.5rem)] translate-x-[110%] flex-col justify-between rounded-2xl p-6 opacity-0 transition-all duration-300 ease-out"
+  >
+    <div>
+      <div class="flex items-center justify-between border-b border-outline-variant pb-4">
+        <span class="font-display text-base font-semibold tracking-tight text-on-surface">
+          {BRAND.name}
+        </span>
+        <button
+          type="button"
+          id="navDrawerClose"
+          aria-label="Fechar menu de navegação"
+          class="flex h-8 w-8 items-center justify-center rounded-full border border-outline-variant text-on-surface-variant hover:text-on-surface cursor-pointer"
+        >
+          <Icon name="close" class="h-4 w-4" />
+        </button>
+      </div>
+
+      <nav aria-label="Navegação mobile" class="mt-4 divide-y divide-outline-variant border-b border-outline-variant">
+        {navItems.map((item) => {
+          const isCurrent = item.href === normalizedPath;
+          return (
+            <a
+              href={item.href}
+              aria-current={isCurrent ? 'page' : undefined}
+              class:list={[
+                'flex items-center justify-between py-3.5 text-sm font-medium transition-colors',
+                isCurrent ? 'text-on-surface' : 'text-on-surface-variant hover:text-on-surface',
+              ]}
+            >
+              <span>{item.label}</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          );
+        })}
+      </nav>
+    </div>
+  </aside>
+</header>
+
+<script is:inline>
+  (() => {
+    const btn = document.getElementById('themeToggleBtn');
+    const navBar = document.getElementById('mainNavBar');
+    const drawerToggle = document.getElementById('navDrawerToggle');
+    const drawerClose = document.getElementById('navDrawerClose');
+    const drawerPanel = document.getElementById('navDrawerPanel');
+    const drawerBackdrop = document.getElementById('navDrawerBackdrop');
+
+    const syncAria = () => {
+      const isDark = (document.documentElement.getAttribute('data-theme') || 'dark') === 'dark';
+      btn?.setAttribute('aria-checked', String(isDark));
+    };
+    syncAria();
+
+    // Auto-hide ao rolar para baixo e exibir ao rolar para cima
+    let lastScrollY = window.scrollY || 0;
+    let ticking = false;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY || 0;
+      const isDrawerOpen = drawerToggle?.getAttribute('aria-expanded') === 'true';
+
+      if (navBar && !isDrawerOpen) {
+        if (currentScrollY <= 48 || currentScrollY < lastScrollY - 4) {
+          navBar.classList.remove('-translate-y-24', 'opacity-0', 'pointer-events-none');
+          navBar.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+        } else if (currentScrollY > lastScrollY + 6 && currentScrollY > 72) {
+          navBar.classList.add('-translate-y-24', 'opacity-0', 'pointer-events-none');
+          navBar.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+        }
+      }
+      lastScrollY = Math.max(0, currentScrollY);
+      ticking = false;
+    };
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          window.requestAnimationFrame(handleScroll);
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
+
+    if (btn) {
+      btn.addEventListener('click', () => {
+        const root = document.documentElement;
+        const currentTheme = root.getAttribute('data-theme') || 'dark';
+        const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+        root.setAttribute('data-theme', nextTheme);
+        root.classList.toggle('dark', nextTheme === 'dark');
+        syncAria();
+
+        try {
+          localStorage.setItem('void-business-theme', nextTheme);
+        } catch {}
+
+        const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+        if (metaThemeColor) {
+          metaThemeColor.setAttribute('content', nextTheme === 'dark' ? '#07080c' : '#f4f2ed');
+        }
+      });
+    }
+
+    const setDrawerOpen = (open) => {
+      if (!drawerPanel || !drawerBackdrop || !drawerToggle) return;
+      drawerToggle.setAttribute('aria-expanded', String(open));
+      if (open) {
+        drawerPanel.classList.remove('translate-x-[110%]', 'opacity-0', 'pointer-events-none');
+        drawerPanel.classList.add('translate-x-0', 'opacity-100', 'pointer-events-auto');
+        drawerBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+        drawerBackdrop.classList.add('opacity-100', 'pointer-events-auto');
+        document.body.style.overflow = 'hidden';
+      } else {
+        drawerPanel.classList.add('translate-x-[110%]', 'opacity-0', 'pointer-events-none');
+        drawerPanel.classList.remove('translate-x-0', 'opacity-100', 'pointer-events-auto');
+        drawerBackdrop.classList.add('opacity-0', 'pointer-events-none');
+        drawerBackdrop.classList.remove('opacity-100', 'pointer-events-auto');
+        document.body.style.overflow = '';
+      }
+    };
+
+    drawerToggle?.addEventListener('click', () => {
+      const isOpen = drawerToggle.getAttribute('aria-expanded') === 'true';
+      setDrawerOpen(!isOpen);
+    });
+    drawerClose?.addEventListener('click', () => setDrawerOpen(false));
+    drawerBackdrop?.addEventListener('click', () => setDrawerOpen(false));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setDrawerOpen(false);
+    });
+    window.addEventListener('pageshow', () => setDrawerOpen(false));
+    window.addEventListener('pagehide', () => setDrawerOpen(false));
+    drawerPanel?.querySelectorAll('a').forEach((el) => {
+      el.addEventListener('click', () => setDrawerOpen(false));
+    });
+  })();
+</script>
+
+<style is:global>
+  .theme-knob-circle {
+    transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform-origin: 12px 12px;
+  }
+
+  :root[data-theme="dark"] #themeKnobCircle,
+  html.dark #themeKnobCircle {
+    transform: translateX(20px);
+  }
+
+  :root[data-theme="light"] #themeKnobCircle {
+    transform: translateX(0px);
+  }
+</style>

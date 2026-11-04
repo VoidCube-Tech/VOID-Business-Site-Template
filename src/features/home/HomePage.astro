@@ -1,0 +1,182 @@
+---
+import InteractiveSolutions from './components/InteractiveSolutions.tsx';
+import InteractiveArchitectureBlueprint from './components/InteractiveArchitectureBlueprint.tsx';
+import InteractiveClosingSimulator from '../../shared/sections/InteractiveClosingSimulator.tsx';
+import OperationalVerticals from '../../shared/sections/OperationalVerticals.astro';
+import { engagementPlans } from '../../shared/catalog/commercialDependencies';
+import { PHOTO_MODULAR_CURVE_SET, PHOTO_ORBITAL_OFFICES_SET } from '../../shared/media/frontImages';
+import ResponsivePicture from '../../shared/ui/ResponsivePicture.astro';
+---
+
+<!-- ============================================================================
+     1. HERO — Fachada Arquitetônica Curva ao Fundo (Sem buraco para a próxima seção)
+     ============================================================================ -->
+<section
+  id="hero"
+  aria-labelledby="hero-heading"
+  class="split-photo-hero relative min-h-[76vh] flex items-center pt-28 pb-8 sm:pt-32 sm:pb-12"
+>
+  <!-- Fotografia Arquitetônica Horizontal em Tela Cheia (AVIF / WebP / JPG) -->
+  <ResponsivePicture
+    image={PHOTO_MODULAR_CURVE_SET}
+    alt="Fachada arquitetônica curva modular de precisão geométrica."
+    fetchpriority="high"
+    loading="eager"
+    decoding="async"
+    class="split-photo-sharp object-center"
+  />
+
+  <!-- Lente de Desfoque na Metade Esquerda (Desktop) / Inferior (Mobile) -->
+  <div class="split-lens-left" aria-hidden="true"></div>
+
+  <div class="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="w-full md:max-w-[58%] lg:max-w-[54%] min-w-0">
+      <h1
+        id="hero-heading"
+        class="headline-bicolor text-3xl sm:text-5xl lg:text-6xl tracking-tight min-w-0 break-words"
+      >
+        <span class="headline-bicolor-primary">ERP corporativo em núcleo único.</span>
+        <span class="headline-bicolor-secondary">Reduza o fechamento contábil em até 80%.</span>
+      </h1>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================================
+     2. NÚCLEO FINANCEIRO — Transição Contínua Logo Abaixo do Hero
+     ============================================================================ -->
+<section
+  id="solucoes"
+  aria-labelledby="solucoes-heading"
+  data-reveal
+  class="relative pt-6 pb-16 sm:pt-8 sm:pb-20 lg:pt-10 lg:pb-24"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <h2 id="solucoes-heading" class="sr-only">Módulos Operacionais Periphelion</h2>
+    <InteractiveSolutions />
+  </div>
+</section>
+
+<!-- ============================================================================
+     3. VERTICAIS DE OPERAÇÃO — Layout Espaçado Estático
+     ============================================================================ -->
+<OperationalVerticals />
+
+<!-- ============================================================================
+     4. ESCALA & GOVERNANÇA — Fotografia ao Fundo (Metade Esquerda Desfocada / Direita Nítida)
+     ============================================================================ -->
+<section
+  id="escala"
+  aria-labelledby="escala-heading"
+  data-reveal
+  class="relative py-20 sm:py-24 lg:py-32"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="split-photo-stage min-h-[460px] sm:min-h-[520px] lg:min-h-[560px] flex items-end md:items-center">
+      <ResponsivePicture
+        image={PHOTO_ORBITAL_OFFICES_SET}
+        alt="Fachada corporativa noturna com luminárias circulares orbitais."
+        loading="eager"
+        decoding="async"
+        class="split-photo-sharp object-center"
+      />
+
+      <!-- Lente de Desfoque na Metade Esquerda (Desktop) / Inferior (Mobile) -->
+      <div class="split-lens-left" aria-hidden="true"></div>
+
+      <div class="relative z-10 w-full p-6 sm:p-12 lg:p-16">
+        <div class="w-full md:max-w-[52%] lg:max-w-[48%] min-w-0">
+          <h2
+            id="escala-heading"
+            class="headline-bicolor text-2xl sm:text-3xl lg:text-4xl min-w-0 break-words"
+          >
+            <span class="headline-bicolor-primary">Estruturado para escalar.</span>
+            <span class="headline-bicolor-secondary">Governança sem atrito operacional.</span>
+          </h2>
+
+          <p class="mt-5 text-sm sm:text-base lg:text-lg leading-relaxed text-on-surface-variant min-w-0 break-words">
+            Unificamos razão contábil, apuração tributária e tesouraria em uma única base transacional, entregando visibilidade auditável em tempo real e eliminando o fechamento manual de fim de mês.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================================
+     5. SIMULADOR INTERATIVO DE FECHAMENTO & LIQUIDEZ — Layout Espaçado Estático
+     ============================================================================ -->
+<section
+  id="simulador"
+  aria-labelledby="simulador-heading"
+  data-reveal
+  class="relative py-20 sm:py-24 lg:py-32"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <h2 id="simulador-heading" class="sr-only">Simulador de Fechamento Contábil e Liquidez</h2>
+    <InteractiveClosingSimulator client:visible />
+  </div>
+</section>
+
+<!-- ============================================================================
+     6. MATRIZ COMPARATIVA EM VIDRO FUMÊ
+     ============================================================================ -->
+<section
+  id="arquitetura"
+  aria-labelledby="arquitetura-heading"
+  data-reveal
+  class="relative py-20 sm:py-24 lg:py-32"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <h2 id="arquitetura-heading" class="sr-only">Matriz Comparativa de Arquitetura</h2>
+    <InteractiveArchitectureBlueprint />
+  </div>
+</section>
+
+<!-- ============================================================================
+     7. MODALIDADES DE LICENCIAMENTO — Layout Espaçado Estático (Sem sticky)
+     ============================================================================ -->
+<section
+  id="planos"
+  aria-labelledby="planos-heading"
+  data-reveal
+  class="relative py-20 sm:py-24 lg:py-32"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-12 lg:gap-x-16 items-start">
+      <div class="lg:col-span-4 min-w-0">
+        <h2
+          id="planos-heading"
+          class="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-on-surface min-w-0 break-words"
+        >
+          Planos
+        </h2>
+        <p class="mt-3 max-w-sm text-sm sm:text-base leading-relaxed text-on-surface-variant min-w-0 break-words">
+          Dimensionados para o estágio e a estrutura societária da sua operação.
+        </p>
+      </div>
+
+      <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-x-10 lg:gap-x-16 gap-y-12 sm:gap-y-16 min-w-0">
+        {engagementPlans.map((model) => (
+          <article class="min-w-0">
+            <h3 class="font-display text-base sm:text-lg lg:text-xl font-semibold tracking-tight text-on-surface min-w-0 break-words">
+              {model.name}
+            </h3>
+
+            <p class="mt-1 font-display text-sm sm:text-base text-on-surface-variant min-w-0 break-words">
+              {model.features[0]}
+            </p>
+
+            <p class="mt-3 text-sm leading-relaxed text-on-surface-variant min-w-0 break-words">
+              {model.description}
+            </p>
+
+            <span class="sr-only" data-commercial-placeholder={model.commercialDependencyId}>
+              {model.pricingStatusLabel}
+            </span>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

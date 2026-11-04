@@ -1,0 +1,184 @@
+---
+import { solutionModules, engagementPlans } from '../../shared/catalog/commercialDependencies';
+import OperationalVerticals from '../../shared/sections/OperationalVerticals.astro';
+import InteractiveClosingSimulator from '../../shared/sections/InteractiveClosingSimulator.tsx';
+import ResponsivePicture from '../../shared/ui/ResponsivePicture.astro';
+import {
+  PHOTO_NIGHT_GRID_SET,
+  PHOTO_MONO_TOWERS_SET,
+  PHOTO_GLASS_CANYON_SET,
+  PHOTO_AMBER_LOUVERS_SET,
+  PHOTO_EXECUTIVE_DESK_SET,
+  type ResponsiveImageSet,
+} from '../../shared/media/frontImages';
+
+const MODULE_SECONDARY_HEADLINES: Record<string, string> = {
+  'gestao-financeira': 'Conciliação bancária e liquidez em tempo real.',
+  'compliance-fiscal': 'Conformidade preventiva para SPED, IBS e CBS.',
+  'suprimentos-estoque': 'Custo médio e rastreabilidade física por lote.',
+  'vendas-faturamento': 'Contratos recorrentes e faturamento automatizado.',
+  'inteligencia-preditiva': 'Modelagem de liquidez e suporte a decisões executivas.',
+};
+
+// Fotografias reais dedicadas para todos os 5 módulos (zero sobreposição de textos de fundo)
+const PRODUCT_MODULE_PHOTO_SETS: Record<string, ResponsiveImageSet> = {
+  'gestao-financeira': PHOTO_NIGHT_GRID_SET,
+  'compliance-fiscal': PHOTO_MONO_TOWERS_SET,
+  'suprimentos-estoque': PHOTO_GLASS_CANYON_SET,
+  'vendas-faturamento': PHOTO_AMBER_LOUVERS_SET,
+  'inteligencia-preditiva': PHOTO_EXECUTIVE_DESK_SET,
+};
+---
+
+<!-- ============================================================================
+     1. HERO PRODUTOS — Tipografia Bicolor Direta
+     ============================================================================ -->
+<section
+  id="hero"
+  aria-labelledby="services-hero-heading"
+  class="relative pt-36 pb-12 sm:pt-44 sm:pb-16"
+>
+  <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl min-w-0">
+      <h1
+        id="services-hero-heading"
+        class="headline-bicolor text-3xl sm:text-5xl lg:text-6xl tracking-tight min-w-0 break-words"
+      >
+        <span class="headline-bicolor-primary">Módulos de engenharia empresarial.</span>
+        <span class="headline-bicolor-secondary">Ativação independente ou suíte unificada.</span>
+      </h1>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================================
+     2. CATÁLOGO DE MÓDULOS — Fotografia ao Fundo (Metade Desfocada p/ Texto, Metade Nítida)
+     ============================================================================ -->
+<section
+  id="catalogo"
+  aria-labelledby="catalogo-heading"
+  class="relative py-12 sm:py-16 lg:py-24"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <h2 id="catalogo-heading" class="sr-only">Catálogo de Módulos do ERP</h2>
+
+    <div class="space-y-16 sm:space-y-24">
+      {solutionModules.map((module, index) => {
+        const isTextOnRight = index % 2 === 1;
+        const modulePhotoSet = PRODUCT_MODULE_PHOTO_SETS[module.id] ?? PHOTO_NIGHT_GRID_SET;
+        const secondaryHeadline =
+          MODULE_SECONDARY_HEADLINES[module.id] ?? 'Arquitetura integrada em tempo real.';
+
+        return (
+          <article
+            id={`modulo-${module.id}`}
+            data-reveal
+            class="split-photo-stage min-h-[460px] sm:min-h-[520px] lg:min-h-[560px] flex items-end md:items-center"
+          >
+            <ResponsivePicture
+              image={modulePhotoSet}
+              alt={`Fotografia arquitetônica representando o módulo ${module.title}`}
+              loading="eager"
+              decoding="async"
+              class="split-photo-sharp object-center"
+            />
+            <div
+              class={isTextOnRight ? 'split-lens-right' : 'split-lens-left'}
+              aria-hidden="true"
+            />
+
+            <div class="relative z-10 w-full p-6 sm:p-12 lg:p-16">
+              <div
+                class:list={[
+                  'w-full md:max-w-[52%] lg:max-w-[48%] min-w-0',
+                  isTextOnRight ? 'md:ml-auto' : '',
+                ]}
+              >
+                <h3 class="headline-bicolor text-2xl sm:text-3xl lg:text-4xl min-w-0 break-words">
+                  <span class="headline-bicolor-primary">{module.title}.</span>
+                  <span class="headline-bicolor-secondary">{secondaryHeadline}</span>
+                </h3>
+
+                <p class="mt-5 text-sm sm:text-base lg:text-lg leading-relaxed text-on-surface-variant min-w-0 break-words">
+                  {module.description}
+                </p>
+
+                <span class="sr-only" data-commercial-placeholder={module.commercialDependencyId}>
+                  {module.eyebrow}
+                </span>
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================================
+     3. VERTICAIS DE OPERAÇÃO — Layout Espaçado Estático
+     ============================================================================ -->
+<OperationalVerticals />
+
+<!-- ============================================================================
+     4. SIMULADOR INTERATIVO DE FECHAMENTO & LIQUIDEZ
+     ============================================================================ -->
+<section
+  id="simulador-produtos"
+  aria-labelledby="simulador-produtos-heading"
+  data-reveal
+  class="relative py-20 sm:py-24 lg:py-32"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <h2 id="simulador-produtos-heading" class="sr-only">Simulador de Fechamento Contábil e Liquidez</h2>
+    <InteractiveClosingSimulator client:visible />
+  </div>
+</section>
+
+<!-- ============================================================================
+     5. PLANOS DE LICENCIAMENTO — Layout Espaçado Estático (Sem sticky)
+     ============================================================================ -->
+<section
+  id="planos-comparativo"
+  aria-labelledby="planos-comparativo-heading"
+  data-reveal
+  class="relative py-20 sm:py-24 lg:py-32"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-12 lg:gap-x-16 items-start">
+      <div class="lg:col-span-4 min-w-0">
+        <h2
+          id="planos-comparativo-heading"
+          class="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-on-surface min-w-0 break-words"
+        >
+          Planos
+        </h2>
+        <p class="mt-3 max-w-sm text-sm sm:text-base leading-relaxed text-on-surface-variant min-w-0 break-words">
+          Implantação assistida sem interrupção operacional.
+        </p>
+      </div>
+
+      <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-x-10 lg:gap-x-16 gap-y-12 sm:gap-y-16 min-w-0">
+        {engagementPlans.map((model) => (
+          <article class="min-w-0">
+            <h3 class="font-display text-base sm:text-lg lg:text-xl font-semibold tracking-tight text-on-surface min-w-0 break-words">
+              {model.name}
+            </h3>
+
+            <p class="mt-1 font-display text-sm sm:text-base text-on-surface-variant min-w-0 break-words">
+              {model.features[0]}
+            </p>
+
+            <p class="mt-3 text-sm leading-relaxed text-on-surface-variant min-w-0 break-words">
+              {model.description}
+            </p>
+
+            <span class="sr-only" data-commercial-placeholder={model.commercialDependencyId}>
+              {model.pricingStatusLabel}
+            </span>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
